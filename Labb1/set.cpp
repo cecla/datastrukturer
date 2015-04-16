@@ -414,17 +414,17 @@ template<typename T>
 Set<T>::Set (const Set& b)
 {
     //ADD CODE
-//    init();
-//    Node* tempCopy = head;
-//    Node* temp = b.head->next;
-    
-//    while (temp)
-//    {
-//        tempCopy->next = new Node(temp->value, tail, tempCopy);
-//        tempCopy = tempCopy->next;
-//        temp = temp->next;
-//        counter+=1;
-//    }
+    init();
+    Node* p = tail;
+    Node* temp = b.head->next;
+
+    while (temp!= b.tail)
+    {
+        insert(p, temp->value);
+        temp = temp->next;
+        counter+=1;
+    }
+
 }
 
 
@@ -433,6 +433,7 @@ template<typename T>
 Set<T>::~Set ()
 {
     //ADD CODE
+
 }
 
 
@@ -520,13 +521,9 @@ template<typename T>
 Set<T>& Set<T>::insert(Node *p, T val)
 {
     //ADD CODE
-    
-    //assert(p->prev != nullptr);
-    
     Node* n = new Node(val, p, p->prev);
     p->prev = p->prev->next = n;
     return *this;
-
 }
 
 
