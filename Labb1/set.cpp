@@ -382,7 +382,7 @@ Set<T>::Set (T n)
     counter += 1;
 
     init();
-    Node* p = head->next;
+
     Node *newNode = new Node(n, tail, head);
 
     head->next = newNode;
@@ -400,7 +400,6 @@ Set<T>::Set (T a[], int n)
         return;
     }
     init();
-    Node* back = tail->prev;
 
     for(int i = 0; i < n; i++)
     {
@@ -417,6 +416,17 @@ template<typename T>
 Set<T>::Set (const Set& b)
 {
     //ADD CODE
+    init();
+    Node* tempCopy = head;
+    Node* temp = b.head->next;
+    
+    while (temp)
+    {
+        tempCopy->next = new Node(temp->value, nullptr, tempCopy);
+        tempCopy = tempCopy->next;
+        temp = temp->next;
+        counter+=1;
+    }
 }
 
 
@@ -548,9 +558,11 @@ void Set<T>::init()
 template<typename T>
 void Set<T>::print(ostream& os) const
 {
+    os << "{ ";
     for(Node* p = head->next; p != tail; p = p->next){
         os << p->value << " ";
     }
+    os << "}" ;
 }
 
 
