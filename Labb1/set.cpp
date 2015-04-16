@@ -383,9 +383,10 @@ Set<T>::Set (T n)
 
     init();
     Node* p = head->next;
-    Node *newNode = new Node(n, tail, p);
+    Node *newNode = new Node(n, tail, head);
 
     head->next = newNode;
+    tail->prev = newNode;
 }
 
 
@@ -394,19 +395,21 @@ template<typename T>
 Set<T>::Set (T a[], int n)
 {
     //ADD CODE
-//    if(n == 0){ // don't know what this will do yet
-//        cout << "Array is empty!";
-//        return;
-//    }
-//
-//    init();
-//    Node* p = head->next;
-//
-//    for(int i = 0; i < n; i++)
-//    {
-//        insert(p, a[i]);
-//    }
-//    counter = n;
+    if(n == 0){
+        cout << "Array is empty!";
+        return;
+    }
+    init();
+    Node* back = tail->prev;
+
+    for(int i = 0; i < n; i++)
+    {
+       // insert(a[i]);
+       // Node(value, next node, previous node)
+       Node* n = new Node(a[i], tail, tail->prev);
+       tail->prev = tail->prev->next = n;
+    }
+    counter = n;
 }
 
 //Copy constructor
@@ -530,8 +533,8 @@ template<typename T>
 void Set<T>::init()
 {
     // Node(value, next node, previous node)
-    Node* head = new Node();
-    Node* tail = new Node(0, nullptr, head);
+    head = new Node();
+    tail = new Node(0, nullptr, head);
 
     //for debugging, if the condition is false
     //then the the program aborts execution
@@ -545,21 +548,9 @@ void Set<T>::init()
 template<typename T>
 void Set<T>::print(ostream& os) const
 {
-//    if(head->next == tail)
-//    {
-//        os << "Empty" << endl;
-//    }
-   // else{
-
-//            Node* p = head->next;
-//            while(p->next != tail){
-//                os << p->value << " ";
-//                p = p->next;
-//            }
-            for(Node* p = head->next; p != tail; p = p->next){
-                os << p->value << " ";
-            }
- //   }
+    for(Node* p = head->next; p != tail; p = p->next){
+        os << p->value << " ";
+    }
 }
 
 

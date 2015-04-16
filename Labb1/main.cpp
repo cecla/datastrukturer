@@ -36,15 +36,15 @@ int main()
     * Constructor: create a Set from an array            *
     ******************************************************/
     cout << "\nTEST PHASE 1: constructor from an array\n\n";
-//
-//    int A1[] = { 1, 3, 5 };
-//    int A2[] = { 2, 3, 4 };
-//
-//    Set<int> S1(A1, 3);
-//    Set<int> S2(A2, 3);
-//
-//    cout << "S1 = " << S1 << endl;
-//    cout << "S2 = " << S2 << endl;
+
+    int A1[] = { 1, 3, 5 };
+    int A2[] = { 2, 3, 4 };
+
+    Set<int> S1(A1, 3);
+    Set<int> S2(A2, 3);
+
+    cout << "S1 = " << S1 << endl;
+    cout << "S2 = " << S2 << endl;
 
 //    /*****************************************************
 //    * TEST PHASE 2                                       *
