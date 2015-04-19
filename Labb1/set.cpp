@@ -369,7 +369,6 @@ template<typename T>
 Set<T>::Set ()
 {
     init();
-    counter = 0;
 }
 
 
@@ -379,9 +378,10 @@ Set<T>::Set (T n)
 {
    //ADD CODE
    //TODO: should check if n is in list first!
-    counter += 1;
+
 
     init();
+    counter += 1;
 
     Node *newNode = new Node(n, tail, head);
 
@@ -406,14 +406,12 @@ Set<T>::Set (T a[], int n)
     {
         insert(p, a[i]);
     }
-    counter = n;
 }
 
 //Copy constructor
 template<typename T>
 Set<T>::Set (const Set& b)
 {
-    //ADD CODE
     init();
     Node* p = tail;
     Node* temp = b.head->next;
@@ -422,7 +420,6 @@ Set<T>::Set (const Set& b)
     {
         insert(p, temp->value);
         temp = temp->next;
-        counter+=1;
     }
 
 }
@@ -432,8 +429,13 @@ Set<T>::Set (const Set& b)
 template<typename T>
 Set<T>::~Set ()
 {
-    //ADD CODE
-
+    Node* current = head->next;
+    while(current){
+        delete(current->prev);
+        current = current->next;
+  //      cout << head->value;
+    }
+    delete tail;
 }
 
 
@@ -441,8 +443,17 @@ Set<T>::~Set ()
 template<typename T>
 const Set<T>& Set<T>::operator=(const Set& b)
 {
-    //ADD CODE
-    return *this; //delete this code
+    if(this != &b){
+        Set copy(b);
+
+        swap(head, copy.head);
+        swap(tail, copy.tail);
+        swap(counter, copy.counter);
+    }
+    else{
+        cout << "hamna i else";
+    }
+    return *this;
 }
 
 
@@ -462,6 +473,13 @@ template<typename T>
 bool Set<T>::is_member (T val) const
 {
    //ADD CODE
+   Node* p = head->next;
+   while(p)
+   {
+       if(p->value == val)
+        return true;
+       p = p->next;
+   }
    return false; //delete this code
 }
 
@@ -470,8 +488,7 @@ bool Set<T>::is_member (T val) const
 template<typename T>
 int Set<T>::cardinality() const
 {
-    //ADD CODE
-    return 0; //delete this code
+    return counter; //delete this code
 }
 
 
@@ -488,7 +505,30 @@ template<typename T>
 bool Set<T>::operator<=(const Set& b) const
 {
     //ADD CODE
-    return false; //delete this code
+    Node* p1 = head->next;
+    Node* p2 = b.head->next;
+    int countSub = 0;
+
+    while(p1->next != nullptr)
+    {
+        if(p1->value == p2->value)
+        {
+            countSub +=1;
+            p1 = p1->next;
+            p2 = p2->next;
+        }
+        else if(p1->value > p2->value)
+        {
+            p2 = p2->next;
+        }
+        else if(p1->value < p2->value)
+        {
+            p1 = p1->next;
+        }
+    }
+    if(countSub == counter){return true; }
+    else
+        return false;
 }
 
 
@@ -498,7 +538,23 @@ template<typename T>
 bool Set<T>::operator==(const Set& b) const
 {
     //ADD CODE
-    return false; //delete this code
+    Node* p1 = head->next;
+    Node* p2 = b.head->next;
+    bool isEqual = true;
+    while(p1->next != nullptr)
+    {
+        if(p1->value > p2->value || p2 == nullptr || p1->value < p2->value)
+        {
+            isEqual = false;
+            break;
+        }
+        else
+        {
+            p1 = p1->next;
+            p2 = p2->next;
+        }
+    }
+    return isEqual; //delete this code
 }
 
 
@@ -507,8 +563,30 @@ bool Set<T>::operator==(const Set& b) const
 template<typename T>
 bool Set<T>::operator<(const Set& b) const
 {
-    //ADD CODE
-    return false; //delete this code
+    Node* p1 = head->next;
+    Node* p2 = b.head->next;
+    int countSub = 0;
+
+    while(p1->next != nullptr)
+    {
+        if(p1->value == p2->value)
+        {
+            countSub +=1;
+            p1 = p1->next;
+            p2 = p2->next;
+        }
+        else if(p1->value > p2->value)
+        {
+            p2 = p2->next;
+        }
+        else if(p1->value < p2->value)
+        {
+            p1 = p1->next;
+        }
+    }
+    if(countSub == counter && b.counter > countSub){return true; }
+    else
+        return false;
 }
 
 
@@ -520,9 +598,9 @@ bool Set<T>::operator<(const Set& b) const
 template<typename T>
 Set<T>& Set<T>::insert(Node *p, T val)
 {
-    //ADD CODE
     Node* n = new Node(val, p, p->prev);
     p->prev = p->prev->next = n;
+    counter += 1;
     return *this;
 }
 
@@ -550,6 +628,7 @@ void Set<T>::init()
     assert (head != nullptr && tail != nullptr);
 
     head->next = tail;
+    counter = 0;
 }
 
 
@@ -570,8 +649,38 @@ void Set<T>::print(ostream& os) const
 template<typename T>
 Set<T> Set<T>::_union(const Set& b) const
 {
-    //ADD CODE
-    return *this; //delete this code
+    Set s(b);
+    Node* p1 = head->next;
+    Node* p2 = s.head->next;
+
+    while(p1->next != nullptr)
+    {
+        if(p2 == nullptr){
+     //       cout << "p2 = null";
+            s.insert(s.tail, p1->value);
+            p1 = p1->next;
+
+        }
+        else if(p1->value > p2->value){
+            p2 = p2->next;
+       //     cout << "p1 > p2";
+        }
+        else if(p1->value < p2->value){
+            s.insert(p2, p1->value);
+            p1 = p1->next;
+         //   cout << "p1<p2";
+        }
+        else if(p1->value == p2->value){
+            p1 = p1->next;
+            p2 = p2->next;
+         //   cout << "p2 = p1";
+        }
+        else{
+            cout << "FUCKED" << endl;
+        }
+    }
+
+    return s; //delete this code
 }
 
 
@@ -581,7 +690,34 @@ template<typename T>
 Set<T> Set<T>::_intersection(const Set& b) const
 {
     //ADD CODE
-    return *this; //delete this code
+    Set s;
+    s.init();
+
+    Node *p1 = head->next;
+    Node *p2 = b.head->next;
+
+    while(p1->next != nullptr && p2->next != nullptr)
+    {
+        if(p1->value == p2->value)
+        {
+            s.insert(s.tail, p1->value);
+            p1 = p1->next;
+            p2 = p2->next;
+        }
+        else if(p1->value > p2->value)
+        {
+            p2 = p2->next;
+        }
+        else if(p1->value < p2->value)
+        {
+            p1 = p1->next;
+        }
+        else
+        {
+            cout << "FUCKED" << endl;
+        }
+    }
+    return s; //delete this code
 }
 
 
@@ -591,7 +727,39 @@ template<typename T>
 Set<T> Set<T>::_difference(const Set& b) const
 {
     //ADD CODE
-    return *this; //delete this code
+    Set s;
+    s.init();
+
+    Node* p1 = head->next;
+    Node* p2 = b.head->next;
+
+    while(p1->next != nullptr)
+    {
+        if(p2 == nullptr)
+        {
+            s.insert(s.tail, p1->value);
+            p1 = p1->next;
+        }
+        else if(p1->value < p2->value)
+        {
+            s.insert(s.tail, p1->value);
+            p1 = p1->next;
+        }
+        else if(p1->value > p2->value)
+        {
+            p2 = p2->next;
+        }
+        else if(p1->value == p2->value)
+        {
+            p1 = p1->next;
+            p2 = p2->next;
+        }
+        else
+        {
+            cout << "FUCKED" << endl;
+        }
+    }
+    return s; //delete this code
 }
 
 

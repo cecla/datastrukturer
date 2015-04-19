@@ -60,63 +60,63 @@ int main()
     * TEST PHASE 3                                       *
     * Assignment operator: operator=                     *
     ******************************************************/
-//    cout << "\nTEST PHASE 3: operator=\n\n";
-//
-//    S3 = S4 = S5;
-//
-//    cout << "S3 = " << S3 << endl;
-//    cout << "S4 = " << S4 << endl;
-//
-//
-//    /*****************************************************
-//    * TEST PHASE 4                                       *
-//    * is_member                                          *
-//    ******************************************************/
-//    cout << "\nTEST PHASE 4: is_member\n\n";
-//
-//    for (int i = 1; i <= 5; i++)
-//    {
-//        cout << "S3.is_member(" << i << ") ? "
-//             << (S3.is_member(i) ? 'T' : 'F') << endl;
-//    }
-//      cout << "\nS3.is_member(99999) ? "
-//           << (S3.is_member(99999) ? 'T' : 'F') << endl;
-//
-//    /*****************************************************
-//    * TEST PHASE 5                                       *
-//    * cardinality                                        *
-//    ******************************************************/
-//    cout << "\nTEST PHASE 5: cardinality\n\n";
-//
-//    cout << "S3.cardinality() = "
-//         << S3.cardinality() << endl;
-//
-//    /*****************************************************
-//    * TEST PHASE 5                                       *
-//    * Overloaded operators: union, intersection, and     *
-//    * and difference                                     *
-//    ******************************************************/
-//    cout << "\nTEST PHASE 5: union, intersection, and difference\n\n";
-//
-//    S3 = S1 + S2 + 4;
-//    S4 = S1 * S2;
-//    S5 = S1 - S2;
-//
-//    cout << "S3 = " << S3 << endl;
-//    cout << "S4 = " << S4 << endl;
-//    cout << "S5 = " << S5 << endl;
-//
-//    /*****************************************************
-//    * TEST PHASE 6                                       *
-//    * Overloaded operators: equality, subset, and        *
-//    * strict subset                                      *
-//    ******************************************************/
-//    cout << "\nTEST PHASE 6: equality, subset, strict subset\n\n";
-//
-//    cout << "S2 == S3 ? " << (S2 == S3 ? 'T' : 'F') << endl;
-//    cout << "S2 <= S3 ? " << (S2 <= S3 ? 'T' : 'F') << endl;
-//    cout << "S2 <  S3 ? " << (S2 <  S3 ? 'T' : 'F') << endl;
-//
+    cout << "\nTEST PHASE 3: operator=\n\n";
+
+    S3 = S4 = S5;
+
+    cout << "S3 = " << S3 << endl;
+    cout << "S4 = " << S4 << endl;
+
+
+    /*****************************************************
+    * TEST PHASE 4                                       *
+    * is_member                                          *
+    ******************************************************/
+    cout << "\nTEST PHASE 4: is_member\n\n";
+
+    for (int i = 1; i <= 5; i++)
+    {
+        cout << "S3.is_member(" << i << ") ? "
+             << (S3.is_member(i) ? 'T' : 'F') << endl;
+    }
+      cout << "\nS3.is_member(99999) ? "
+           << (S3.is_member(99999) ? 'T' : 'F') << endl;
+
+    /*****************************************************
+    * TEST PHASE 5                                       *
+    * cardinality                                        *
+    ******************************************************/
+    cout << "\nTEST PHASE 5: cardinality\n\n";
+
+    cout << "S3.cardinality() = "
+         << S3.cardinality() << endl;
+
+    /*****************************************************
+    * TEST PHASE 5                                       *
+    * Overloaded operators: union, intersection, and     *
+    * and difference                                     *
+    ******************************************************/
+    cout << "\nTEST PHASE 5: union, intersection, and difference\n\n";
+
+    S3 = S1 + S2 + 4;
+    S4 = S1 * S2;
+    S5 = S1 - S2;
+
+    cout << "S3 = " << S3 << endl;
+    cout << "S4 = " << S4 << endl;
+    cout << "S5 = " << S5 << endl;
+
+    /*****************************************************
+    * TEST PHASE 6                                       *
+    * Overloaded operators: equality, subset, and        *
+    * strict subset                                      *
+    ******************************************************/
+    cout << "\nTEST PHASE 6: equality, subset, strict subset\n\n";
+
+    cout << "S2 == S3 ? " << (S2 == S3 ? 'T' : 'F') << endl;
+    cout << "S2 <= S3 ? " << (S2 <= S3 ? 'T' : 'F') << endl;
+    cout << "S2 <  S3 ? " << (S2 <  S3 ? 'T' : 'F') << endl;
+
 //    /*****************************************************
 //    * TEST PHASE 7                                       *
 //    * Overloaded operators: insert and delete one element*
