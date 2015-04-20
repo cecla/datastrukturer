@@ -430,8 +430,10 @@ template<typename T>
 Set<T>::~Set ()
 {
     Node* current = head->next;
-    while(current){
-        delete(current->prev);
+    while(current)
+    {
+        erase(current->prev);
+        //delete(current->prev);
         current = current->next;
   //      cout << head->value;
     }
@@ -497,6 +499,8 @@ template<typename T>
 void Set<T>::clear()
 {
     //ADD CODE
+    this->~Set();
+    init();
 }
 
 //Return true, if the set is a subset of b, otherwise false
@@ -610,9 +614,15 @@ template<typename T>
 Set<T>& Set<T>::erase(Node *p)
 {
     //ADD CODE
-   // p->prev-next = p->next;
-   // p->next->prev = p->prev;
-   // delete p;
+    if (!head && !tail)
+    {
+        p->prev->next = p->next;
+        p->next->prev = p->prev;
+        counter--;
+    }
+
+    delete(p);
+    return *this;
 }
 
 //Create an empty Set
@@ -621,7 +631,7 @@ void Set<T>::init()
 {
     // Node(value, next node, previous node)
     head = new Node();
-    tail = new Node(0, nullptr, head);
+    tail = new Node(T(), nullptr, head);
 
     //for debugging, if the condition is false
     //then the the program aborts execution
