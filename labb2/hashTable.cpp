@@ -39,12 +39,11 @@ int nextPrime( int n )
 HashTable::HashTable(int table_size, HASH f)
     : size(nextPrime(table_size)), h(f), nItems(0)
 {
-  //  size = table_size;    oklart om det behövs
+  //  size = table_size;    avkommentera om det behövs
     this->hTable = new Item *[size];
-    for(int i = 0; i < table_size; i ++){
+    for(int i = 0; i < size; i ++){
         hTable[i] = nullptr;
     }
-//    hTable = nullptr; //to be deleted
 }
 
 
@@ -52,6 +51,18 @@ HashTable::HashTable(int table_size, HASH f)
 // IMPLEMENT
 HashTable::~HashTable()
 {
+    Item* temp; //= new Item *[size];
+    Item* temp_next;// = new Item *[size];
+
+    for(int i = 0; i < size; i++){
+        temp = hTable[i];
+        while(temp != nullptr){
+            temp_next = hTable[i+1];
+            delete temp;
+            temp = temp_next;
+        }
+        hTable[i] = nullptr;
+    }
 
 }
 
@@ -68,7 +79,19 @@ double HashTable::loadFactor() const
 // IMPLEMENT
 int HashTable::find(string key) const
 {
-    return NOT_FOUND; //to be deleted
+    unsigned index = h(key, size);
+
+    while(hTable[index] != nullptr){
+    //    cout << "in while" << endl;
+        if(hTable[index]->key == key){
+  //          cout << "key found!";
+                 return hTable[index]->value;
+        }
+        index++;
+        if(index > size)
+            index = 0;
+    }
+    return NOT_FOUND;
 }
 
 
@@ -78,6 +101,23 @@ int HashTable::find(string key) const
 // IMPLEMENT
 void HashTable::insert(string key, int v)
 {
+    unsigned index = h(key, size);
+    Item* item = new Item(key, v);
+
+    while(hTable[index] != nullptr) {
+        if(hTable[index]->key == key){
+            hTable[index]->value = v;
+            return;
+        }
+        index ++;
+        if(index > size){
+            index = 0;
+        }
+    }
+    hTable[index] = item;
+
+    if(nItems == (size/2))
+        reHash();
 
 }
 
@@ -88,7 +128,17 @@ void HashTable::insert(string key, int v)
 // IMPLEMENT
 bool HashTable::remove(string key)
 {
-    return true; //to be deleted
+    unsigned index = h(key, size);
+    Item* item = new Item("", -1);
+    while(hTable[index] != nullptr) {
+        if(hTable[index]->key == key){
+            delete(hTable[index]);
+            hTable[index] = item;
+            return true;
+        }
+        index ++;
+    }
+    return false; //to be deleted
 }
 
 
