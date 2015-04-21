@@ -376,11 +376,7 @@ Set<T>::Set ()
 template<typename T>
 Set<T>::Set (T n)
 {
-   //ADD CODE
-   //TODO: should check if n is in list first!
-
-
-    init();
+   init();
     counter += 1;
 
     Node *newNode = new Node(n, tail, head);
@@ -621,7 +617,7 @@ void Set<T>::init()
 {
     // Node(value, next node, previous node)
     head = new Node();
-    tail = new Node(0, nullptr, head);
+    tail = new Node(T(), nullptr, head);
 
     //for debugging, if the condition is false
     //then the the program aborts execution
