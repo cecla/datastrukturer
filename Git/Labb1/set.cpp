@@ -376,7 +376,11 @@ Set<T>::Set ()
 template<typename T>
 Set<T>::Set (T n)
 {
-   init();
+   //ADD CODE
+   //TODO: should check if n is in list first!
+
+
+    init();
     counter += 1;
 
     Node *newNode = new Node(n, tail, head);
