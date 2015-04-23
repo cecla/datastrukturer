@@ -102,7 +102,6 @@ int HashTable::find(string key) const
 void HashTable::insert(string key, int v)
 {
     unsigned index = h(key, size);
-    Item* item = new Item(key, v);
 
     while(hTable[index] != nullptr) {
         if(hTable[index]->key == key){
@@ -114,7 +113,10 @@ void HashTable::insert(string key, int v)
             index = 0;
         }
     }
+    
+    Item* item = new Item(key, v);
     hTable[index] = item;
+    nItems++;
 
     if(nItems == (size/2))
         reHash();
@@ -183,5 +185,14 @@ ostream& operator<<(ostream& os, const HashTable& T)
 // IMPLEMENT
 void HashTable::reHash()
 {
-
+    int temp = size;
+    size = nextPrime(size * 2);
+    
+    Item** oldTable = hTable;
+    this->hTable = new Item *[size];
+    
+    for (int i = 0; i < temp; i++)
+    {
+        insert(oldTable[i]->key, oldTable[i]->value);
+    }
 }
