@@ -376,7 +376,7 @@ Set<T>::Set ()
 template<typename T>
 Set<T>::Set (T n)
 {
-    init();
+   init();
     counter += 1;
 
     Node *newNode = new Node(n, tail, head);
@@ -503,12 +503,14 @@ bool Set<T>::operator<=(const Set& b) const
     Node* p1 = head->next;
     Node* p2 = b.head->next;
     int countSub = 0;
-    if(counter > b.counter) {
-        return false;
-    }
+
     while(p1->next != nullptr)
     {
-        if(p1->value == p2->value)
+        cout << "in operator<=" << endl;
+        if(p2 == nullptr){
+            return
+        }
+        else if(p1->value == p2->value)
         {
             countSub +=1;
             p1 = p1->next;
@@ -539,6 +541,7 @@ bool Set<T>::operator==(const Set& b) const
     bool isEqual = true;
     while(p1->next != nullptr)
     {
+        cout << "in operator==" << endl;
         if(p1->value > p2->value || p2 == nullptr || p1->value < p2->value)
         {
             isEqual = false;
@@ -555,16 +558,14 @@ bool Set<T>::operator==(const Set& b) const
 
 
 //Return true, if the set is a strict subset of S, otherwise false
-//a < b, if a <= b but not b <= a
+//a == b, if a <= b but not b <= a
 template<typename T>
 bool Set<T>::operator<(const Set& b) const
 {
     Node* p1 = head->next;
     Node* p2 = b.head->next;
     int countSub = 0;
-    if(counter >= b.counter) {
-        return false;
-    }
+
     while(p1->next != nullptr)
     {
         if(p1->value == p2->value)

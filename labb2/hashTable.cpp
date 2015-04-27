@@ -40,8 +40,9 @@ HashTable::HashTable(int table_size, HASH f)
     : size(nextPrime(table_size)), h(f), nItems(0)
 {
   //  size = table_size;    avkommentera om det behövs
-    this->hTable = new Item *[size];
-    for(int i = 0; i < size; i ++){
+    hTable = new Item *[size];
+    for(int i = 0; i < size; i ++)
+    {
         hTable[i] = nullptr;
     }
 }
@@ -58,7 +59,7 @@ HashTable::~HashTable()
         temp = hTable[i];
         while(temp != nullptr){
             temp_next = hTable[i+1];
-            delete temp;
+            delete(temp);
             temp = temp_next;
         }
         hTable[i] = nullptr;
@@ -103,24 +104,25 @@ void HashTable::insert(string key, int v)
 {
     unsigned index = h(key, size);
 
-    while(hTable[index] != nullptr) {
+
+    while(hTable[index])
+    {
+        if(index > size){
+            index = 0;
+        }
         if(hTable[index]->key == key){
             hTable[index]->value = v;
             return;
         }
         index ++;
-        if(index > size){
-            index = 0;
-        }
     }
-    
+
     Item* item = new Item(key, v);
     hTable[index] = item;
     nItems++;
 
     if(nItems == (size/2))
         reHash();
-
 }
 
 
@@ -132,6 +134,7 @@ bool HashTable::remove(string key)
 {
     unsigned index = h(key, size);
     Item* item = new Item("", -1);
+
     while(hTable[index] != nullptr) {
         if(hTable[index]->key == key){
             delete(hTable[index]);
@@ -140,7 +143,7 @@ bool HashTable::remove(string key)
         }
         index ++;
     }
-    return false; //to be deleted
+    return false;
 }
 
 
@@ -186,13 +189,19 @@ ostream& operator<<(ostream& os, const HashTable& T)
 void HashTable::reHash()
 {
     int temp = size;
-    size = nextPrime(size * 2);
-    
-    Item** oldTable = hTable;
-    this->hTable = new Item *[size];
-    
+    size = nextPrime(temp * 2);
+    Item** table = hTable;
+    hTable = new Item *[size];
+    nItems = 0;
+
     for (int i = 0; i < temp; i++)
     {
-        insert(oldTable[i]->key, oldTable[i]->value);
+        cout << "i forloopen" << endl;
+        if(table[i] != nullptr)
+        {
+            cout << "i if" << i << endl;
+            insert(table[i]->key, table[i]->value);
+        }
     }
+    delete[] table;
 }
