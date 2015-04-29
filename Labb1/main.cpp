@@ -124,7 +124,7 @@ int main()
     cout << "\nTEST PHASE 7: insertion and deletion\n\n";
 
     //Note: conversion constructor is called
-    S4 = 4 + S1; //- 5 - 99999;
+    S4 = 4 + S1 - 5 - 99999;
     S5 = S2 - 2 + 1 - 99999;
 
     cout << "S4 = " << S4 << endl;

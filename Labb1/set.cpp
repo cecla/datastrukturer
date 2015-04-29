@@ -523,9 +523,8 @@ bool Set<T>::operator<=(const Set& b) const
             p1 = p1->next;
         }
     }
-    if(countSub == counter){return true; }
-    else
-        return false;
+    if(countSub == counter) return true;
+    else return false;
 }
 
 
@@ -534,23 +533,8 @@ bool Set<T>::operator<=(const Set& b) const
 template<typename T>
 bool Set<T>::operator==(const Set& b) const
 {
-    Node* p1 = head->next;
-    Node* p2 = b.head->next;
-    bool isEqual = true;
-    while(p1->next != nullptr)
-    {
-        if(p1->value > p2->value || p2 == nullptr || p1->value < p2->value)
-        {
-            isEqual = false;
-            break;
-        }
-        else
-        {
-            p1 = p1->next;
-            p2 = p2->next;
-        }
-    }
-    return isEqual;
+    if(*this <= b && b <= *this) return true;
+    else return false;
 }
 
 
@@ -559,32 +543,8 @@ bool Set<T>::operator==(const Set& b) const
 template<typename T>
 bool Set<T>::operator<(const Set& b) const
 {
-    Node* p1 = head->next;
-    Node* p2 = b.head->next;
-    int countSub = 0;
-    if(counter >= b.counter) {
-        return false;
-    }
-    while(p1->next != nullptr)
-    {
-        if(p1->value == p2->value)
-        {
-            countSub +=1;
-            p1 = p1->next;
-            p2 = p2->next;
-        }
-        else if(p1->value > p2->value)
-        {
-            p2 = p2->next;
-        }
-        else if(p1->value < p2->value)
-        {
-            p1 = p1->next;
-        }
-    }
-    if(countSub == counter && b.counter > countSub){return true; }
-    else
-        return false;
+    if(b <= *this ) return false;
+    else return true;
 }
 
 
@@ -596,13 +556,10 @@ bool Set<T>::operator<(const Set& b) const
 template<typename T>
 Set<T>& Set<T>::insert(Node *p, T val)
 {
-    if(!is_member(val))
-    {
-        Node* n = new Node(val, p, p->prev);
-        p->prev = p->prev->next = n;
-        counter += 1;
-        return *this;
-    }
+    Node* n = new Node(val, p, p->prev);
+    p->prev = p->prev->next = n;
+    counter += 1;
+    return *this;
 }
 
 
@@ -652,38 +609,43 @@ void Set<T>::print(ostream& os) const
 template<typename T>
 Set<T> Set<T>::_union(const Set& b) const
 {
-    Set s(b);
+    Set s;
     Node* p1 = head->next;
-    Node* p2 = s.head->next;
+    Node* p2 = b.head->next;
 
-    while(p1->next != nullptr)
+    while(p1->next && p2->next)
     {
-        if(p2 == nullptr){
-     //       cout << "p2 = null";
-            s.insert(s.tail, p1->value);
-            p1 = p1->next;
-
-        }
-        else if(p1->value > p2->value){
+        if(p1->value > p2->value){
+            s.insert(s.tail, p2->value);
             p2 = p2->next;
-       //     cout << "p1 > p2";
         }
         else if(p1->value < p2->value){
-            s.insert(p2, p1->value);
+            s.insert(s.tail, p1->value);
             p1 = p1->next;
-         //   cout << "p1<p2";
         }
         else if(p1->value == p2->value){
+            s.insert(s.tail, p1->value);
             p1 = p1->next;
             p2 = p2->next;
-         //   cout << "p2 = p1";
         }
         else{
             cout << "Something went wrong in _union" << endl;
         }
     }
-
-    return s; //delete this code
+    
+    while (p1->next)
+    {
+        s.insert(s.tail, p1->value);
+        p1 = p1->next;
+    }
+    
+    while (p2->next)
+    {
+        s.insert(s.tail, p2->value);
+        p2 = p2->next;
+    }
+    
+    return s;
 }
 
 
@@ -694,12 +656,11 @@ Set<T> Set<T>::_intersection(const Set& b) const
 {
     //ADD CODE
     Set s;
-    s.init();
 
     Node *p1 = head->next;
     Node *p2 = b.head->next;
 
-    while(p1->next != nullptr && p2->next != nullptr)
+    while(p1->next && p2->next )
     {
         if(p1->value == p2->value)
         {
@@ -731,19 +692,13 @@ Set<T> Set<T>::_difference(const Set& b) const
 {
     //ADD CODE
     Set s;
-    s.init();
-
+    
     Node* p1 = head->next;
     Node* p2 = b.head->next;
 
-    while(p1->next != nullptr)
+    while(p1->next && p2->next)
     {
-        if(p2 == nullptr)
-        {
-            s.insert(s.tail, p1->value);
-            p1 = p1->next;
-        }
-        else if(p1->value < p2->value)
+        if(p1->value < p2->value)
         {
             s.insert(s.tail, p1->value);
             p1 = p1->next;
@@ -761,6 +716,12 @@ Set<T> Set<T>::_difference(const Set& b) const
         {
             cout << "Something went wrong in _difference" << endl;
         }
+    }
+    
+    while(p1->next)
+    {
+        s.insert(s.tail, p1->value);
+        p1 = p1->next;
     }
     return s; //delete this code
 }
