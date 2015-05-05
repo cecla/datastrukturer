@@ -523,7 +523,7 @@ bool Set<T>::operator<=(const Set& b) const
             p1 = p1->next;
         }
     }
-    if(countSub == counter) return true;
+    if(countSub <= counter) return true;
     else return false;
 }
 
