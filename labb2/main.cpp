@@ -38,13 +38,14 @@ int main()
 
     const int TABLE_SIZE = 7;
 
-    string textfile = "test_file1.txt";
+    string textfile = "/Users/cecilialagerwall/Documents/Skola/TND004/labb2/test files/test_file1.txt";
     string line;
     ifstream inFile;
+    int count = 0;
     bool isAlpha;
     HashTable table(TABLE_SIZE, my_hash);
 
-    // Läsa in från en textfil
+    // Lâ€°sa in frÃ‚n en textfil
     inFile.open(textfile.c_str());
 
     if(!inFile)
@@ -60,12 +61,16 @@ int main()
         transform(line.begin(), line.end(), line.begin(), ::tolower);
         line.erase(remove_if(line.begin(), line.end(), isNotAlpha), line.end());
 
-        // Loopa igenom och lägg in i hashable
+        // Loopa igenom och lâ€°gg in i hashable
         table[line]++;
+        count++;
     }
-
-    table.display(cout
-    //cout << table << endl;
+    
+    cout << "Number of words in the file = " << count << endl;
+    
+    cout << "Number unique  words in the file = " << table.get_number_OF_items() << endl;
+    //table.display(cout);
+    cout << table << endl;
 
     // Skriv ut i loggen
 

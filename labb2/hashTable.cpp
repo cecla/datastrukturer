@@ -52,18 +52,14 @@ HashTable::HashTable(int table_size, HASH f)
 // IMPLEMENT
 HashTable::~HashTable()
 {
-    Item* temp; //= new Item *[size];
-    Item* temp_next;// = new Item *[size];
-
-    for(int i = 0; i < size; i++){
-        temp = hTable[i];
-        while(temp != nullptr){
-            temp_next = hTable[i+1];
-            delete(temp);
-            temp = temp_next;
-        }
-        hTable[i] = nullptr;
+    for(int i = 0; i < size; i++)
+    {
+        //temp = hTable[i];
+        //temp_next = hTable[i+1];
+        delete(hTable[i]);
     }
+    delete hTable;
+    nItems = 0;
 
 }
 
@@ -189,10 +185,9 @@ ostream& operator<<(ostream& os, const HashTable& T)
     {
         if(T.hTable[i])
         {
-            os << setw(6) << i << ": ";
             string key = T.hTable[i]->key;
 
-            os << "key = " << "\"" << key << "\""
+            os << "key = " << key
                << setw(12) << "value = " << T.hTable[i]->value
                << "  (" << T.h(key,T.size) << ")" << endl;
         }
@@ -258,10 +253,12 @@ void HashTable::reHash()
             while(hTable[index])
             {
                 index++;
-                if(index > size-1)
+
+                if(index > size-1)
                     index = 0;
             }
             hTable[index] = oldTable[i];
+            nItems++;
         }
     }
     delete[] oldTable;
