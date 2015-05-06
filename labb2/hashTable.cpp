@@ -104,25 +104,29 @@ void HashTable::insert(string key, int v)
 {
     unsigned index = h(key, size);
 
-
     while(hTable[index])
     {
-        if(index > size){
-            index = 0;
-        }
-        if(hTable[index]->key == key){
+        if(hTable[index]->key == key)
+        {
             hTable[index]->value = v;
             return;
         }
-        index ++;
+        if(index >= (size - 1))
+        {
+            index = 0;
+        }
+        else
+            index ++;
     }
-
     Item* item = new Item(key, v);
     hTable[index] = item;
     nItems++;
-
-    if(nItems == (size/2))
+    // if loadfactor > MAXFACTOR (constant)
+    if(loadFactor() >= MAX_LOAD_FACTOR)
+    {
         reHash();
+    }
+
 }
 
 
@@ -179,9 +183,55 @@ void HashTable::display(ostream& os)
 // IMPLEMENT
 ostream& operator<<(ostream& os, const HashTable& T)
 {
+    os << "-------------------------------\n";
+
+    for (int i = 0; i < T.size; ++i)
+    {
+        if(T.hTable[i])
+        {
+            os << setw(6) << i << ": ";
+            string key = T.hTable[i]->key;
+
+            os << "key = " << "\"" << key << "\""
+               << setw(12) << "value = " << T.hTable[i]->value
+               << "  (" << T.h(key,T.size) << ")" << endl;
+        }
+    }
+
+    os << endl;
     return os;
 }
 
+int& HashTable::operator[](const string k)
+{
+
+    unsigned index = h(k, size);
+    int temp;
+    while(hTable[index])
+    {
+        if(hTable[index]->key == k)
+        {
+            return hTable[index]->value;
+        }
+        if(index >= (size - 1))
+        {
+            index = 0;
+        }
+        else
+            index ++;
+    }
+    Item* item = new Item(k, 0);
+    hTable[index] = item;
+    nItems++;
+    //temp = hTable[index]->value;
+    // if loadfactor > MAXFACTOR (constant)
+    if(loadFactor() >= MAX_LOAD_FACTOR)
+    {
+        reHash();
+        index = h(k, size);
+    }
+    return hTable[index]->value;
+}
 //Private member functions
 
 //Rehashing function
@@ -190,18 +240,29 @@ void HashTable::reHash()
 {
     int temp = size;
     size = nextPrime(temp * 2);
-    Item** table = hTable;
+    Item** oldTable = hTable;
     hTable = new Item *[size];
+    for(int i = 0; i < size; i++) // have to point all pointers to null to use if below
+    {
+        hTable[i] = nullptr;
+    }
     nItems = 0;
+    unsigned index;
 
     for (int i = 0; i < temp; i++)
     {
-        cout << "i forloopen" << endl;
-        if(table[i] != nullptr)
+        if(oldTable[i] != nullptr && oldTable[i]->value != -1)
         {
-            cout << "i if" << i << endl;
-            insert(table[i]->key, table[i]->value);
+            // point the correct nullpointers to the item in the old table
+            index = h(oldTable[i]->key, size);
+            while(hTable[index])
+            {
+                index++;
+                if(index > size-1)
+                    index = 0;
+            }
+            hTable[index] = oldTable[i];
         }
     }
-    delete[] table;
+    delete[] oldTable;
 }

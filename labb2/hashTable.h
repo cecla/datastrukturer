@@ -102,7 +102,7 @@ public:
     // IMPLEMENT
     void insert(string key, int v = 0);
 
-
+    int& operator[](const string k);
     /** \brief Remove an item from the table
       *
       * \param key of the item to be removed
@@ -126,6 +126,8 @@ public:
     //Display the table to stream os
     // IMPLEMENT
     friend ostream& operator<<(ostream& os, const HashTable& T);
+
+
 
 
     /** \brief Display all entries in the table
@@ -164,6 +166,7 @@ private:
     //Rehashing function
     // IMPLEMENT
     void reHash();
+
 
 
     //disable copy constructor

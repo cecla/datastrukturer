@@ -40,6 +40,7 @@ int menu()
     cout << "3. Delete" << endl;
     cout << "4. Dump table" << endl;
     cout << "5. Exit" << endl;
+    cout << "6. Shit" << endl;
 
     cout << "Enter your choice: ";
 
@@ -105,11 +106,18 @@ int main()
             break;
 
         case 4:
+            //cout << table << endl;
             table.display(cout);
             break;
 
         case 5:
             go = false;
+            break;
+
+        case 6:
+            cout << "Enter key of the value to be inserted: ";
+            cin >> key;
+            table[key]++;
             break;
 
         default:
