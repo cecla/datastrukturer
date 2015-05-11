@@ -15,8 +15,8 @@ unsigned my_hash(string s, int tableSize)
 {
     unsigned hashVal = 0;
 
-    for(unsigned i = 0; i < s.length(); i++)
-        hashVal += s[i];
+    for(char ch : s)
+        hashVal = 37 * hashVal + ch;
 
     hashVal %= tableSize;
 
