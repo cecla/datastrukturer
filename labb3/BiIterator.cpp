@@ -18,15 +18,15 @@
 BiIterator::BiIterator(Node *ptr)
  : current(ptr)
  {
-
+     
  }
 
 
 //Dereferencing operator
-ELEMENT& BiIterator::operator*() const
-{
+//ELEMENT& BiIterator::operator*() const
+//{
     //ADD CODE
-}
+//}
 
 
 //Member access operator

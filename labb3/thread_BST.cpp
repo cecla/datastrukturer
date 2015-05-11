@@ -20,7 +20,8 @@ using namespace std;
 BST_threaded::BST_threaded()
  : counter(0)
 {
-    //ADD CODE
+    ELEMENT e("",0);
+    root = new Node(e, nullptr,nullptr);
 }
 
 
@@ -35,7 +36,9 @@ BST_threaded::~BST_threaded()
 bool BST_threaded::empty() const
 {
     //ADD CODE
-    return true;
+    cout << counter << "..:counter";
+    if(counter == 0) return true;
+    return false;
 }
 
 //Return mumber of keys (elements) stored in the tree

@@ -32,7 +32,13 @@ Node::~Node()
 bool Node::insert(ELEMENT v)
 {
     //ADD CODE
-    return false;
+    cout << " hej" << endl;
+    if(find(v.first))
+        return false;
+
+    Node *newNode =  new Node(v, this->left, nullptr);
+
+    return true;
 }
 
 
