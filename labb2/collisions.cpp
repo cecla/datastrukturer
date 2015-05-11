@@ -48,7 +48,7 @@ int main()
             }
         }
 
-        cout << i << " " << counter / 100.0 << endl;
+        cout << counter / 100.0 << endl;
     }
 
     return 0;
