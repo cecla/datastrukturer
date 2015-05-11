@@ -378,7 +378,6 @@ Set<T>::Set (T n)
 {
     init();
     counter += 1;
-
     Node *newNode = new Node(n, tail, head);
 
     head->next = newNode;
@@ -632,19 +631,19 @@ Set<T> Set<T>::_union(const Set& b) const
             cout << "Something went wrong in _union" << endl;
         }
     }
-    
+
     while (p1->next)
     {
         s.insert(s.tail, p1->value);
         p1 = p1->next;
     }
-    
+
     while (p2->next)
     {
         s.insert(s.tail, p2->value);
         p2 = p2->next;
     }
-    
+
     return s;
 }
 
@@ -692,7 +691,7 @@ Set<T> Set<T>::_difference(const Set& b) const
 {
     //ADD CODE
     Set s;
-    
+
     Node* p1 = head->next;
     Node* p2 = b.head->next;
 
@@ -717,7 +716,7 @@ Set<T> Set<T>::_difference(const Set& b) const
             cout << "Something went wrong in _difference" << endl;
         }
     }
-    
+
     while(p1->next)
     {
         s.insert(s.tail, p1->value);

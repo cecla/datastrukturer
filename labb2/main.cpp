@@ -54,7 +54,6 @@ int main()
         return 0;
     }
 
-
     while(inFile >> line)
     {
         // Ta bort punkt och skit & gjort till lowercase
@@ -65,14 +64,10 @@ int main()
         table[line]++;
         count++;
     }
-    
-    cout << "Number of words in the file = " << count << endl;
-    
-    cout << "Number unique  words in the file = " << table.get_number_OF_items() << endl;
-    //table.display(cout);
-    cout << table << endl;
 
-    // Skriv ut i loggen
+    cout << "Number of words in the file = " << count << endl;
+    cout << "Number unique  words in the file = " << table.get_number_OF_items() << endl;
+    cout << table << endl;
 
     return 0;
 }
