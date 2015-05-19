@@ -36,7 +36,7 @@ BST_threaded::~BST_threaded()
 bool BST_threaded::empty() const
 {
     //ADD CODE
-    cout << counter << "..:counter";
+    //cout << counter << "..:counter";
     if(counter == 0) return true;
     return false;
 }
@@ -80,10 +80,20 @@ void BST_threaded::remove(string key)
 //then an ELEMENT (key,0) is inserted and a reference to it is returned
 ELEMENT& BST_threaded::operator[](string key)
 {
-    //ADD CODE
-    static ELEMENT e("", 0); //MUST remove this code
-
-    return e; //MUST remove this code
+    
+    // use method find in node.cpp
+    if(root->left->find(key) != nullptr)
+    {
+        // if found, return the element where key is found
+        return root->left->find(key)->value;
+    }
+    else
+    {
+        // if not found, insert the element and return new element e
+        static ELEMENT e(key, 0);
+        insert(e);
+        return e;
+    }
 }
 
 
@@ -92,16 +102,27 @@ ELEMENT& BST_threaded::operator[](string key)
 //Otherwise, return this->end().
 BiIterator BST_threaded::find(string key) const
 {
-    //ADD CODE
-    return end();
+    // Use find-method in node.cpp
+    if(root->left->find(key))
+    {
+        // if key is found, return the iterator referring to the node of the key
+        return root->left->find(key);
+    }
+    
+    else
+    {
+        // if not found, return the iterator pointing to the root, end()
+        return end();
+    }
+    
 }
 
 
 //Return an iterator referring to the first node in the inorder traversal of the BST
 BiIterator BST_threaded::begin() const
 {
-    //ADD CODE
-    return end();
+    BiIterator it(root->left);
+    return it;
 }
 
 

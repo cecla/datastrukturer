@@ -10,11 +10,12 @@
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
+using namespace std;
 
 Node::Node(ELEMENT v, Node *l, Node *r)
  : value(v), left(l), right(r)
 {
-    l_thread = r_thread = false;
+    //l_thread = r_thread = false;
 }
 
 
@@ -32,12 +33,57 @@ Node::~Node()
 bool Node::insert(ELEMENT v)
 {
     //ADD CODE
-    cout << " hej" << endl;
+    // checks if the already exsists
     if(find(v.first))
         return false;
+    
+    Node *temp = this;
+    
+    if(temp->value.first > v.first)
+    {
+        cout << "EMMMMA JAG FATTTAR INTTTTTEEEEEEE, " << v.first << "< " << temp->value.first << endl;
+    }
+    
+    // check if we have somehow returned to the root, which should never have a
+    // right pointer, in that case return nullptr
+    while(temp->right != nullptr)
+    {
+        // if key is smaller, go left
+        if(temp->value.first > v.first)
+        {
+            cout << "vad händer: " << v.first << " " << temp->value.first << endl;
+            // check if there is a left child. If not, insert the node there
+            if (temp->l_thread)
+            {
+                temp->left = new Node(v, temp->left, temp);
+                temp->left->l_thread = temp->left->r_thread = true;
+                temp->l_thread = false;
+                
+                return true;
+            }
+            // if it has a child, go there
+            else
+            {
+                temp = temp->left;
+            }
+        }
+        else
+        {
+            // same as with left above
+            if(temp->r_thread)
+            {
+                temp->right = new Node(v, temp, temp->right);
+                temp->right->l_thread = temp->right->r_thread = true;
+                temp->r_thread = false;
 
-    Node *newNode =  new Node(v, this->left, nullptr);
-
+                return true;
+            }
+            else
+            {
+                temp = temp->right;
+            }
+        }
+    }
     return true;
 }
 
@@ -79,6 +125,34 @@ void Node::removeMe(Node* parent, bool isRight)
 Node* Node::find(string key)
 {
     //ADD CODE
+    // save instance of this as temp
+    // to be able to traverse without changing the tree
+    Node *temp = this;
+    
+    // check if we have somehow returned to the root, which should never have a
+    // right pointer, in that case return nullptr
+    while (temp->right != nullptr)
+    {
+        // if the value is found, return that node
+        if (temp->value.first == key)
+        {
+            return temp;
+        }
+        // if the key is smaller and the current node has a left child, go to it
+        else if(key < temp->value.first && temp->l_thread == false)
+        {
+            temp = temp->left;
+        }
+        // same as with smaller key but larger
+        else if(key > temp->value.first && temp->r_thread == false)
+        {
+            temp = temp->right;
+        }
+        // if node has l_thread and r_thread true it has no children and
+        // the key does not exist in the tree
+        else
+            return nullptr;
+    }
     return nullptr;
 }
 

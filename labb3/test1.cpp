@@ -40,64 +40,68 @@ int main()
     *PHASE 1: insert()                                    *
     *         create the tree of slide 9, Fö 6            *
     *******************************************************/
-//    cout << "\**TEST PHASE 1: insert"
-//         << endl << endl;
-//
-//    string V[] = {"6", "4", "5", "8", "7", "2"};
-//
-//    for(int i = 0; i < 6; i++)
-//    {
-//        ELEMENT e(V[i],0);
-//        table.insert(e);
-//    }
-//
-//    cout << "Tree: ";
-//    table.display();
-//    cout << endl;
-//
+    cout << "\**TEST PHASE 1: insert"
+         << endl << endl;
+
+    string V[] = {"6", "4", "5", "8", "7", "2"};
+
+    for(int i = 0; i < 6; i++)
+    {
+        ELEMENT e(V[i],0);
+        table.insert(e);
+    }
+
+    cout << "Tree: ";
+    table.display();
+    cout << endl;
+
 //    /******************************************************
 //    *PHASE 2: operator[], find(), iterators               *
 //    *******************************************************/
-//    cout << "\n**TEST PHASE 2: operator[], find(), iterators"
-//         << endl << endl;
-//
-//    for(int i = 0; i < 6; i++)
-//    {
-//       cout << table[V[i]].first << " "
-//            << table[V[i]].second << endl;
-//    }
-//
-//    table["5"].second++;
-//    cout << endl << table["5"].first << " "
-//            << table["5"].second << endl;
-//
-//
-//   if (table.find("20") == table.end())
-//    cout << "20 is not in the tree" << endl;
-//
-//    //Insert (100,0) in the table
-//    cout << "(" << table["100"].first << ","
-//         << table["100"].second << ")" << " has been inserted in the table" << endl;
-//
+    cout << "\n**TEST PHASE 2: operator[], find(), iterators"
+         << endl << endl;
+    
+    for(int i = 0; i < 6; i++)
+    {
+       cout << table[V[i]].first << " "
+            << table[V[i]].second << endl;
+    }
+    table["5"].second++;
+    cout << endl << table["5"].first << " "
+            << table["5"].second << endl;
+
+   if (table.find("20") == table.end())
+    cout << "20 is not in the tree" << endl;
+
+    //Insert (100,0) in the table
+    cout << "(" << table["9"].first << ","
+         << table["9"].second << ")" << " has been inserted in the table" << endl;
+
 //
 //   /******************************************************
 //   *PHASE 3: iterators                                   *
 //   *******************************************************/
-//    cout << "\n**TEST PHASE 3: iterators up and down"
-//         << endl << endl;
+    cout << "\n**TEST PHASE 3: iterators up and down"
+         << endl << endl;
 //
-//    cout << "\n\nTable sorted increasingly..."
-//         << endl << endl;
+    cout << "\n\nTable sorted increasingly..."
+         << endl << endl;
 //
-//    BiIterator it = table.begin();
-//
-//    cout << "  \tKEY" << "\tCOUNTER" << endl;
-//    cout << "==============================\n";
-//    for( ; it != table.end(); it++)
-//    {
-//         cout << setw(10) << it->first
-//              << setw(12) << it->second << endl;
-//    }
+    BiIterator it = table.begin();
+    it++;
+    it++;
+    cout << it->first << endl;
+    
+    table.display();
+    
+    cout << "  \tKEY" << "\tCOUNTER" << endl;
+    cout << "==============================\n";
+    for( ; it != table.end(); it++)
+    {
+        cout << "hej" << endl;
+         cout << setw(10) << it->first
+              << setw(12) << it->second << endl;
+    }
 //
 //    cout << "\n\nTable sorted decreasingly..." << endl << endl;
 //

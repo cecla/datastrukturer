@@ -33,7 +33,8 @@ BiIterator::BiIterator(Node *ptr)
 ELEMENT* BiIterator::operator->() const
 {
     //ADD CODE
-    return nullptr;
+   cout << "in operator(): " << current->value.first << endl;
+    return &current->value;
 }
 
 
@@ -41,6 +42,11 @@ ELEMENT* BiIterator::operator->() const
 bool BiIterator::operator==(const BiIterator &it) const
 {
     //ADD CODE
+    // check if current node is the same as the node of the iterator it
+    if (it.current == current)
+    {
+        return true;
+    }
     return false;
 }
 
@@ -49,6 +55,10 @@ bool BiIterator::operator==(const BiIterator &it) const
 bool BiIterator::operator!=(const BiIterator &it) const
 {
    //ADD CODE
+    if (it.current != current)
+    {
+        return true;
+    }
     return false;
 }
 
@@ -57,6 +67,17 @@ bool BiIterator::operator!=(const BiIterator &it) const
 BiIterator& BiIterator::operator++()
 {
    //ADD CODE
+    BiIterator it = current;
+
+    if (!it.current->l_thread)
+    {
+        cout << "!current->l_thread" << endl;
+        it.current = it.current->left;
+        return *this;
+    }
+    it.current = it.current->right;
+    cout << "jag gjorde aldrig if" << endl;
+    
     return *this;
 }
 
@@ -66,6 +87,14 @@ BiIterator& BiIterator::operator++()
 BiIterator BiIterator::operator++(int)
 {
    //ADD CODE
+    if (!current->l_thread)
+    {
+        cout << "!current->l_thread" << endl;
+        current = current->left;
+        return *this;
+    }
+    cout << "jag gjorde aldrig if" << endl;
+    
     return *this;
 }
 
