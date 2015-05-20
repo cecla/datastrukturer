@@ -22,6 +22,8 @@ BST_threaded::BST_threaded()
 {
     ELEMENT e("",0);
     root = new Node(e, nullptr,nullptr);
+    root->left = root->right = root;
+
 }
 
 
@@ -70,6 +72,26 @@ void BST_threaded::insert(ELEMENT v)
 void BST_threaded::remove(string key)
 {
    //ADD CODE
+   bool isRight;
+   Node *removeIt = root->left->find(key);
+   Node *parent = removeIt->left;
+
+   // check if node is left or right child & find parent
+   // this works for leaf nodes, not internal nodes
+   if (removeIt == removeIt->right->left)
+   {
+       isRight = false;
+   }
+   else
+        isRight = true;
+
+   // send to Node::remove
+
+   // 6 if-satser for 6 cases
+   //måste skicka in key, parent och bool isRight
+
+
+
 }
 
 
@@ -80,7 +102,7 @@ void BST_threaded::remove(string key)
 //then an ELEMENT (key,0) is inserted and a reference to it is returned
 ELEMENT& BST_threaded::operator[](string key)
 {
-    
+
     // use method find in node.cpp
     if(root->left->find(key) != nullptr)
     {
@@ -108,20 +130,20 @@ BiIterator BST_threaded::find(string key) const
         // if key is found, return the iterator referring to the node of the key
         return root->left->find(key);
     }
-    
+
     else
     {
         // if not found, return the iterator pointing to the root, end()
         return end();
     }
-    
+
 }
 
 
 //Return an iterator referring to the first node in the inorder traversal of the BST
 BiIterator BST_threaded::begin() const
 {
-    BiIterator it(root->left);
+    BiIterator it(root->findMin());
     return it;
 }
 

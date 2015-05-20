@@ -60,7 +60,7 @@ int main()
 //    *******************************************************/
     cout << "\n**TEST PHASE 2: operator[], find(), iterators"
          << endl << endl;
-    
+
     for(int i = 0; i < 6; i++)
     {
        cout << table[V[i]].first << " "
@@ -74,8 +74,8 @@ int main()
     cout << "20 is not in the tree" << endl;
 
     //Insert (100,0) in the table
-    cout << "(" << table["9"].first << ","
-         << table["9"].second << ")" << " has been inserted in the table" << endl;
+    cout << "(" << table["100"].first << ","
+         << table["100"].second << ")" << " has been inserted in the table" << endl;
 
 //
 //   /******************************************************
@@ -88,42 +88,36 @@ int main()
          << endl << endl;
 //
     BiIterator it = table.begin();
-    it++;
-    it++;
-    cout << it->first << endl;
-    
-    table.display();
-    
+
     cout << "  \tKEY" << "\tCOUNTER" << endl;
     cout << "==============================\n";
     for( ; it != table.end(); it++)
     {
-        cout << "hej" << endl;
          cout << setw(10) << it->first
               << setw(12) << it->second << endl;
     }
-//
-//    cout << "\n\nTable sorted decreasingly..." << endl << endl;
-//
-//    it = table.find("8");
-//
-//    cout << "  \tKEY" << "\tCOUNTER" << endl;
-//    cout << "==============================\n";
-//    for( ; it != table.end(); it--)
-//    {
-//         cout << setw(10) << it->first
-//              << setw(12) << it->second << endl;
-//    }
-//
-//   /******************************************************
-//   *PHASE 4: remove                                      *
-//   *******************************************************/
-//    cout << "\n**TEST PHASE 4: remove" << endl << endl;
-//
-//    table.remove("6");
-//    table.remove("5");
-//    table.remove("7");
-//
+
+    cout << "\n\nTable sorted decreasingly..." << endl << endl;
+
+    it = table.find("8");
+
+    cout << "  \tKEY" << "\tCOUNTER" << endl;
+    cout << "==============================\n";
+    for( ; it != table.end(); it--)
+    {
+         cout << setw(10) << it->first
+              << setw(12) << it->second << endl;
+    }
+
+   /******************************************************
+   *PHASE 4: remove                                      *
+   *******************************************************/
+    cout << "\n**TEST PHASE 4: remove" << endl << endl;
+
+    table.remove("6");
+    table.remove("5");
+    table.remove("7");
+
 //    cout << "\n\nTable sorted increasingly after removing 5, 6, and 7..."
 //         << endl << endl;
 //

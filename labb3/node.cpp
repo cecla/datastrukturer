@@ -36,29 +36,24 @@ bool Node::insert(ELEMENT v)
     // checks if the already exsists
     if(find(v.first))
         return false;
-    
+
     Node *temp = this;
-    
-    if(temp->value.first > v.first)
-    {
-        cout << "EMMMMA JAG FATTTAR INTTTTTEEEEEEE, " << v.first << "< " << temp->value.first << endl;
-    }
-    
+
     // check if we have somehow returned to the root, which should never have a
     // right pointer, in that case return nullptr
-    while(temp->right != nullptr)
+    // TODO: might be while(true)
+    while(temp->right)
     {
         // if key is smaller, go left
-        if(temp->value.first > v.first)
+        if(v.first < temp->value.first)
         {
-            cout << "vad hÃ¤nder: " << v.first << " " << temp->value.first << endl;
             // check if there is a left child. If not, insert the node there
             if (temp->l_thread)
             {
                 temp->left = new Node(v, temp->left, temp);
                 temp->left->l_thread = temp->left->r_thread = true;
                 temp->l_thread = false;
-                
+
                 return true;
             }
             // if it has a child, go there
@@ -97,7 +92,18 @@ bool Node::insert(ELEMENT v)
 bool Node::remove(string key, Node* parent, bool isRight)
 {
     //ADD CODE
-    return false;
+    Node *temp = find(key);
+
+    if(parent->left->value.first == key)
+    {
+        removeMe(parent, )
+    }
+    if(parent->right->value.first == key)
+    {
+
+    }
+
+    return isRight;
 }
 
 
@@ -115,6 +121,28 @@ bool Node::remove(string key, Node* parent, bool isRight)
 void Node::removeMe(Node* parent, bool isRight)
 {
    //ADD CODE
+       // if remove is a left child with only a right child
+   if(removeIt->l_thread && (!removeIt->left->r_thread))
+   {
+        cout << "inga vänterbarn bara höger";
+        isDeleted = removeIt->remove(key, parent, isDeleted);
+   }
+   // if remove is a left child with only a left child
+   if(!removeIt->left->l_thread && removeIt->left->r_thread)
+   {
+        cout << "inga högerbarn bara vänster";
+        isDeleted = removeIt->remove(key, parent, isDeleted);
+   }
+   // if remove is a left child with no children (r_thread = l_thread = true)
+    if(removeIt->left->l_thread && removeIt->left->r_thread )
+    {
+        cout << "inga barn ";
+        isDeleted = removeIt->remove(key, parent, isDeleted);
+    }
+
+   // if remove is a right child with only a right child
+   // if remove is a right child with only a left child
+   // if remove is a right child with no children
 }
 
 
@@ -128,10 +156,10 @@ Node* Node::find(string key)
     // save instance of this as temp
     // to be able to traverse without changing the tree
     Node *temp = this;
-    
+
     // check if we have somehow returned to the root, which should never have a
     // right pointer, in that case return nullptr
-    while (temp->right != nullptr)
+    while (true)
     {
         // if the value is found, return that node
         if (temp->value.first == key)
@@ -153,16 +181,19 @@ Node* Node::find(string key)
         else
             return nullptr;
     }
-    return nullptr;
 }
 
 
-//Return a pointer to the node storing the smalest value
+//Return a pointer to the node storing the smallest value
 //of the tree whose root is this node
 Node* Node::findMin()
 {
-    //ADD CODE
-    return nullptr;
+    Node *temp = this;
+    while(!temp->l_thread)
+    {
+        temp = temp->left;
+    }
+    return temp;
 }
 
 
@@ -171,10 +202,13 @@ Node* Node::findMin()
 Node* Node::findMax()
 {
     //ADD CODE
-    return nullptr;
+    Node *temp = this;
+    while(!temp->r_thread)
+    {
+        temp = temp->right;
+    }
+    return temp;
 }
-
-
 
 //Display in inorder all keys
 //stored in the tree whose root is this node

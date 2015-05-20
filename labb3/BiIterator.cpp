@@ -18,7 +18,7 @@
 BiIterator::BiIterator(Node *ptr)
  : current(ptr)
  {
-     
+
  }
 
 
@@ -33,7 +33,6 @@ BiIterator::BiIterator(Node *ptr)
 ELEMENT* BiIterator::operator->() const
 {
     //ADD CODE
-   cout << "in operator(): " << current->value.first << endl;
     return &current->value;
 }
 
@@ -67,17 +66,13 @@ bool BiIterator::operator!=(const BiIterator &it) const
 BiIterator& BiIterator::operator++()
 {
    //ADD CODE
-    BiIterator it = current;
+    if(!current->r_thread)
+   {
+       current = current->right->findMin();
+   }
+   else
+    current = current->right;
 
-    if (!it.current->l_thread)
-    {
-        cout << "!current->l_thread" << endl;
-        it.current = it.current->left;
-        return *this;
-    }
-    it.current = it.current->right;
-    cout << "jag gjorde aldrig if" << endl;
-    
     return *this;
 }
 
@@ -87,29 +82,35 @@ BiIterator& BiIterator::operator++()
 BiIterator BiIterator::operator++(int)
 {
    //ADD CODE
-    if (!current->l_thread)
-    {
-        cout << "!current->l_thread" << endl;
-        current = current->left;
-        return *this;
-    }
-    cout << "jag gjorde aldrig if" << endl;
-    
-    return *this;
+   BiIterator temp(*this);
+   ++(*this);
+
+   return temp;
 }
 
 //Pre decrement operator
 BiIterator& BiIterator::operator--()
 {
    //ADD CODE
+    if(!current->l_thread)
+   {
+       current = current->left->findMax();
+   }
+   else
+    current = current->left;
+
     return *this;
+
 }
 
 //Pos decrement operator
 BiIterator BiIterator::operator--(int)
 {
    //ADD CODE
-    return *this;
+    BiIterator temp(*this);
+    --(*this);
+
+    return temp;
 }
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
