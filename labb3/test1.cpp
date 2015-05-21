@@ -115,22 +115,21 @@ int main()
     cout << "\n**TEST PHASE 4: remove" << endl << endl;
 
     table.remove("6");
-    table.remove("5");
-    table.remove("7");
+ //   table.remove("5");
+//    table.remove("7");
 
-//    cout << "\n\nTable sorted increasingly after removing 5, 6, and 7..."
-//         << endl << endl;
-//
-//    it = table.begin();
-//
-//    cout << "  \tKEY" << "\tCOUNTER" << endl;
-//    cout << "==============================\n";
-//    for( ; it != table.end(); it++)
-//    {
-//         cout << setw(10) << it->first
-//              << setw(12) << it->second << endl;
-//    }
-//
+    cout << "\n\nTable sorted increasingly after removing 5, 6, and 7..."
+         << endl << endl;
+
+    it = table.begin();
+
+    cout << "  \tKEY" << "\tCOUNTER" << endl;
+    cout << "==============================\n";
+    for( ; it != table.end(); it++)
+    {
+         cout << setw(10) << it->first
+              << setw(12) << it->second << endl;
+    }
 //    cout << "\nRemove all ..." << endl;
 //
 //    table.remove("2");

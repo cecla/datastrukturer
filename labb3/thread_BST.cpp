@@ -73,21 +73,26 @@ void BST_threaded::insert(ELEMENT v)
 void BST_threaded::remove(string key)
 {
    //ADD CODE
-   // Check if there is a parent
-   Node *parent = root->findParent(key);
-   bool isRight = false;
+   bool isRemoved = false;
+   cout << "1. About to check if " << key << "is in tree in remove" << endl;
+   // check if key is in the tree
+   if(find(key) == nullptr) // check if the key is in the tree, if not return false
+    {
+        isRemoved = false;
+        cout << "3. The key " << key << " is not in the tree and can not be removed!" << endl;
+    }
+    else
+    {
+        // call remove with the first node as 'this', and since it is a left child to root, pass isRight = false
+        cout << "3. The key " << key << " is to be removed!" << endl;
+        isRemoved = root->left->remove(key, root, false);
 
-   // check if node is left or right child
-   // this works for leaf nodes, not internal nodes
-//   if (removeIt->right == parent && removeIt->l_thread && removeIt->r_thread)
-//   {
-//       isRight = true;
-//   }
-//   else
-//        isRight = false;
-
-   // send to Node::remove
-    root->remove(key, parent, isRight);
+        // checking again if the key is in the tree, if it returns nullptr, remove is working!
+        if(find(key) == nullptr)
+            cout << "Key " << key << "was successfully removed!" << endl<< endl;
+        else
+            cout << "Key " << key << "was not deleted!" << endl << endl;
+    }
 }
 
 //If key matches the key of an element in the container,
@@ -96,7 +101,6 @@ void BST_threaded::remove(string key)
 //then an ELEMENT (key,0) is inserted and a reference to it is returned
 ELEMENT& BST_threaded::operator[](string key)
 {
-
     // use method find in node.cpp
     if(root->left->find(key) != nullptr)
     {
@@ -118,19 +122,18 @@ ELEMENT& BST_threaded::operator[](string key)
 //Otherwise, return this->end().
 BiIterator BST_threaded::find(string key) const
 {
+    cout << "2. Searching for " << key << endl;
     // Use find-method in node.cpp
     if(root->left->find(key))
     {
         // if key is found, return the iterator referring to the node of the key
         return root->left->find(key);
     }
-
     else
     {
         // if not found, return the iterator pointing to the root, end()
         return end();
     }
-
 }
 
 
