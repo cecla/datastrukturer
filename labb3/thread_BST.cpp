@@ -38,9 +38,10 @@ BST_threaded::~BST_threaded()
 bool BST_threaded::empty() const
 {
     //ADD CODE
-    //cout << counter << "..:counter";
-    if(counter == 0) return true;
-    return false;
+    if(counter == 0)
+        return true;
+    else
+        return false;
 }
 
 //Return mumber of keys (elements) stored in the tree
@@ -72,29 +73,22 @@ void BST_threaded::insert(ELEMENT v)
 void BST_threaded::remove(string key)
 {
    //ADD CODE
-   bool isRight;
-   Node *removeIt = root->left->find(key);
-   Node *parent = removeIt->left;
+   // Check if there is a parent
+   Node *parent = root->findParent(key);
+   bool isRight = false;
 
-   // check if node is left or right child & find parent
+   // check if node is left or right child
    // this works for leaf nodes, not internal nodes
-   if (removeIt == removeIt->right->left)
-   {
-       isRight = false;
-   }
-   else
-        isRight = true;
+//   if (removeIt->right == parent && removeIt->l_thread && removeIt->r_thread)
+//   {
+//       isRight = true;
+//   }
+//   else
+//        isRight = false;
 
    // send to Node::remove
-
-   // 6 if-satser for 6 cases
-   //måste skicka in key, parent och bool isRight
-
-
-
+    root->remove(key, parent, isRight);
 }
-
-
 
 //If key matches the key of an element in the container,
 //then return a reference to the ELEMENT with the key

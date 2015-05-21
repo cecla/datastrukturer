@@ -167,6 +167,13 @@ private:
     //IMPLEMENT
     Node* findMax();
 
+    /** \brief Find the parent node of the node storing key.
+    *
+    * \return Pointer to the parent node of node containing string key.
+    *
+    */
+
+    Node* findParent(string key);
 
 
     /** \brief Display the key stored in each node, using inorder traversal of tree T, where T is the sub-tree with root this node.
