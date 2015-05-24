@@ -84,10 +84,6 @@ void BST_threaded::remove(string key)
         // call remove with the first node as 'this', and since it is a left child to root, pass isRight = false
         isRemoved = root->left->remove(key, root, false);
         counter --;
-        // checking again if the key is in the tree, if it returns nullptr, remove is working!
-        if(find(key) == end())
-        else
-            cout << "Key " << key << "was not deleted!" << endl << endl;
     }
 }
 
@@ -97,6 +93,8 @@ void BST_threaded::remove(string key)
 //then an ELEMENT (key,0) is inserted and a reference to it is returned
 ELEMENT& BST_threaded::operator[](string key)
 {
+    if(empty())
+        insert(make_pair(key, 0));
     // use method find in node.cpp
     if(root->left->find(key) != nullptr)
     {
@@ -118,24 +116,18 @@ ELEMENT& BST_threaded::operator[](string key)
 //Otherwise, return this->end().
 BiIterator BST_threaded::find(string key) const
 {
-    cout << "2. Searching for " << key << endl;
     // Use find-method in node.cpp
     if(empty())
     {
-        cout << "tree is empty" << endl;
         return BiIterator(root);
     }
-    cout << "in find, outside if-s" << endl;
-
     if(root->left->find(key))
     {
-        cout << "in find, tree is not empty" << endl;
         // if key is found, return the iterator referring to the node of the key
         return BiIterator(root->left->find(key));
     }
     else
     {
-        cout << "in find else, tree is not empty" << endl;
         // if not found, return the iterator pointing to the root, end()
         return end();
     }

@@ -93,18 +93,20 @@ void BST_threaded::remove(string key)
 //then an ELEMENT (key,0) is inserted and a reference to it is returned
 ELEMENT& BST_threaded::operator[](string key)
 {
+    if(empty())
+        insert(make_pair(key, 0));
     // use method find in node.cpp
-    if(root->left->find(key) != nullptr)
+    Node* temp = root->left->find(key);
+    if(!temp)
     {
         // if found, return the element where key is found
+        insert(make_pair(key,0));
         return root->left->find(key)->value;
     }
     else
     {
         // if not found, insert the element and return new element e
-        static ELEMENT e(key, 0);
-        insert(e);
-        return e;
+        return root->left->find(key)->value;
     }
 }
 

@@ -210,7 +210,6 @@ void Node::removeMe(Node* parent, bool isRight)
        // gör parent->r_thread till true och parent->right = right;
        parent->right = right;
        parent->r_thread = true;
-       cout << "7. Node is a rightie without kids" << endl;
        l_thread = r_thread = true;
        delete this;
 
@@ -227,9 +226,11 @@ void Node::removeMe(Node* parent, bool isRight)
 //If there is no node storing key then return nullptr
 Node* Node::find(string key)
 {
+    cout << "in find, key is " << key << endl;
     //ADD CODE
     // make copy of this to change the value without editing the tree
         Node* temp(this);
+        cout << ""
 
     // If key smaller and elements in left tree exists, go to the left subtree
     if(key < temp->value.first){
@@ -277,12 +278,6 @@ Node* Node::findMin()
 Node* Node::findMax()
 {
     //ADD CODE
-//    Node *temp = this;
-//    while(!temp->r_thread)
-//    {
-//        temp = temp->right;
-//    }
-//    return temp;
     if(!r_thread)
         return right->findMax();
 

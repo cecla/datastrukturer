@@ -229,7 +229,6 @@ Node* Node::find(string key)
     //ADD CODE
     // make copy of this to change the value without editing the tree
         Node* temp(this);
-
     // If key smaller and elements in left tree exists, go to the left subtree
     if(key < temp->value.first){
 
