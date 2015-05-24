@@ -34,11 +34,6 @@ Node::~Node()
     {
         delete right;
     }
-    if(l_thread && r_thread)
-    {
-        cout << "8. This is where node should be removed FO REAL, in the destructor. " << endl;
-           //delete this;
-    }
 }
 
 
@@ -133,11 +128,9 @@ bool Node::remove(string key, Node* parent, bool isRight)
             // if two children, replace the value with the largest value in the left subtree
             // then recursivly call remove in the left subtree
             // ALTERNATIVE: replace it with the smallest value in the right subtree
-            Node *val = left->findMax();
-            cout << "6. node has 2 kids, swap with " << val->value.first << endl;
-            value.first = val->value.first;
-            val->value.first = key;
-            left->remove(key, val, false);
+   //         cout << "6. node has 2 kids, swap with " << val->value.first << endl;
+            value = right->findMin()->value;
+            return right->remove(value.first, this, true);
         }
         else // the node has at most one child
         {
@@ -171,51 +164,54 @@ void Node::removeMe(Node* parent, bool isRight)
    {
         // peka parent->left till this->right och this->right->left till this->left
         parent->left = right;
-        right->left = left;
+  //      right->left = left;
+        this->right->findMin()->left = this->left;
         cout << "7. Node is a leftie with a rightie" << endl;
         delete this;
    }
-   // if remove is a left child with only a left child
-   if(!isRight && !l_thread && r_thread)
+    // if remove is a left child with only a left child
+   else if(!isRight && !l_thread && r_thread)
    {
         // peka parent->left till this->left och this->left->right till this->right
         parent->left = left;
-        left->right = right;
+        left->findMax()->right = right;
         cout << "7. Node is a leftie with a leftie" << endl;
         delete this;
    }
    // if remove is a left child with no children (r_thread = l_thread = true)
-    if(!isRight && l_thread && r_thread)
+    else if(!isRight && l_thread && r_thread)
     {
         // gör parent->l_thread till true och parent->left = left;
-        parent->left = left;
         parent->l_thread = true;
+        parent->left = left;
         cout << "7. Node is a leftie without kids" << endl;
         delete this;
     }
 
    // if remove is a right child with only a right child
-   if(isRight && l_thread && !r_thread)
+   else if(isRight && l_thread && !r_thread)
    {
        // peka parent->right till this->right och this->right->left till this->left
        parent->right = right;
-       right->left = left;
+       //right->left = left;
+       this->right->findMin()->left = this->left;
        cout << "7. Node is a rightie with a rightie" << endl;
        delete this;
 
    }
    // if remove is a right child with only a left child
-   if(isRight && !l_thread && r_thread)
+   else if(isRight && !l_thread && r_thread)
    {
        // peka parent->right till this->left och this->left->right till this->right
        parent->right = left;
-       left->right = right;
+     //  left->right = right;
+        this->left->findMax()->right = this->right;
        cout << "7. Node is a rightie with a leftie" << endl;
        delete this;
 
    }
    // if remove is a right child with no children
-   if(isRight && l_thread && r_thread)
+   else if(isRight && l_thread && r_thread)
    {
        // gör parent->r_thread till true och parent->right = right;
        parent->right = right;
@@ -224,6 +220,10 @@ void Node::removeMe(Node* parent, bool isRight)
        delete this;
 
    }
+   else
+        cout << "Something went wrong in removeMe!" << endl;
+
+   l_thread = r_thread = true;
 }
 
 

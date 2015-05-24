@@ -22,7 +22,6 @@ BST_threaded::BST_threaded()
 {
     ELEMENT e("",0);
     root = new Node(e, nullptr,nullptr);
-    root->left = root->right = root;
 
 }
 
@@ -30,7 +29,7 @@ BST_threaded::BST_threaded()
 //destructor
 BST_threaded::~BST_threaded()
 {
-  //ADD CODE
+  delete root;
 }
 
 
@@ -38,10 +37,10 @@ BST_threaded::~BST_threaded()
 bool BST_threaded::empty() const
 {
     //ADD CODE
-    if(counter == 0)
+    if(!root->left && !root->right)
         return true;
-    else
-        return false;
+
+    return false;
 }
 
 //Return mumber of keys (elements) stored in the tree
@@ -83,12 +82,13 @@ void BST_threaded::remove(string key)
     }
     else
     {
+        counter --;
         // call remove with the first node as 'this', and since it is a left child to root, pass isRight = false
         cout << "3. The key " << key << " is to be removed!" << endl;
         isRemoved = root->left->remove(key, root, false);
 
         // checking again if the key is in the tree, if it returns nullptr, remove is working!
-        if(find(key) == nullptr)
+        if(find(key) == end())
             cout << "Key " << key << "was successfully removed!" << endl<< endl;
         else
             cout << "Key " << key << "was not deleted!" << endl << endl;
@@ -140,7 +140,11 @@ BiIterator BST_threaded::find(string key) const
 //Return an iterator referring to the first node in the inorder traversal of the BST
 BiIterator BST_threaded::begin() const
 {
-    BiIterator it(root->findMin());
+    if(empty())
+        return BiIterator(root);
+
+    Node* firstNode = root->left->findMin();
+    BiIterator it(firstNode);
     return it;
 }
 
