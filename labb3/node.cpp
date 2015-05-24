@@ -167,6 +167,7 @@ void Node::removeMe(Node* parent, bool isRight)
   //      right->left = left;
         this->right->findMin()->left = this->left;
         cout << "7. Node is a leftie with a rightie" << endl;
+        l_thread = r_thread = true;
         delete this;
    }
     // if remove is a left child with only a left child
@@ -176,6 +177,7 @@ void Node::removeMe(Node* parent, bool isRight)
         parent->left = left;
         left->findMax()->right = right;
         cout << "7. Node is a leftie with a leftie" << endl;
+        l_thread = r_thread = true;
         delete this;
    }
    // if remove is a left child with no children (r_thread = l_thread = true)
@@ -185,6 +187,7 @@ void Node::removeMe(Node* parent, bool isRight)
         parent->l_thread = true;
         parent->left = left;
         cout << "7. Node is a leftie without kids" << endl;
+        l_thread = r_thread = true;
         delete this;
     }
 
@@ -196,6 +199,7 @@ void Node::removeMe(Node* parent, bool isRight)
        //right->left = left;
        this->right->findMin()->left = this->left;
        cout << "7. Node is a rightie with a rightie" << endl;
+       l_thread = r_thread = true;
        delete this;
 
    }
@@ -207,6 +211,7 @@ void Node::removeMe(Node* parent, bool isRight)
      //  left->right = right;
         this->left->findMax()->right = this->right;
        cout << "7. Node is a rightie with a leftie" << endl;
+       l_thread = r_thread = true;
        delete this;
 
    }
@@ -217,13 +222,13 @@ void Node::removeMe(Node* parent, bool isRight)
        parent->right = right;
        parent->r_thread = true;
        cout << "7. Node is a rightie without kids" << endl;
+       l_thread = r_thread = true;
        delete this;
 
    }
    else
         cout << "Something went wrong in removeMe!" << endl;
 
-   l_thread = r_thread = true;
 }
 
 
@@ -234,32 +239,36 @@ void Node::removeMe(Node* parent, bool isRight)
 Node* Node::find(string key)
 {
     //ADD CODE
-    // save instance of this as temp
-    // to be able to traverse without changing the tree
-    Node *temp = this;
+    // make copy of this to change the value without editing the tree
+        Node* temp(this);
 
-    while (true)
-    {
-        // if the value is found, return that node
-        if (temp->value.first == key)
-        {
-            return temp;
-        }
-        // if the key is smaller and the current node has a left child, go to it
-        else if(key < temp->value.first && temp->l_thread == false)
-        {
-            temp = temp->left;
-        }
-        // same as with smaller key but larger
-        else if(key > temp->value.first && temp->r_thread == false)
-        {
-            temp = temp->right;
-        }
-        // if node has l_thread and r_thread true it has no children and
-        // the key does not exist in the tree
-        else
+    // If key smaller and elements in left tree exists, go to the left subtree
+    if(key < temp->value.first){
+
+        if(l_thread) // if there is no left subtree, key is not in the tree
             return nullptr;
+
+        else
+            return temp->left->find(key);
+
     }
+    // If key larger and elements in right tree exists, go to the right subtree
+    else if(key > temp->value.first){
+
+        if(r_thread) // if there is no right subtree, key is not in the tree
+            return nullptr;
+
+        else
+            return temp->right->find(key);
+
+    }
+
+    // Else the elements is the same => FOUND!
+    else if(key == temp->value.first)
+        return temp;
+
+    // Not found
+    return nullptr;
 }
 
 
@@ -267,12 +276,10 @@ Node* Node::find(string key)
 //of the tree whose root is this node
 Node* Node::findMin()
 {
-    Node *temp = this;
-    while(!temp->l_thread)
-    {
-        temp = temp->left;
-    }
-    return temp;
+    if(!l_thread)
+        return this->left->findMin();
+
+    return this;
 }
 
 
@@ -281,12 +288,16 @@ Node* Node::findMin()
 Node* Node::findMax()
 {
     //ADD CODE
-    Node *temp = this;
-    while(!temp->r_thread)
-    {
-        temp = temp->right;
-    }
-    return temp;
+//    Node *temp = this;
+//    while(!temp->r_thread)
+//    {
+//        temp = temp->right;
+//    }
+//    return temp;
+    if(!r_thread)
+        return right->findMax();
+
+    return this;
 }
 
 //Display in inorder all keys

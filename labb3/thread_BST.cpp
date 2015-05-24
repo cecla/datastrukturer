@@ -37,17 +37,18 @@ BST_threaded::~BST_threaded()
 bool BST_threaded::empty() const
 {
     //ADD CODE
-    if(!root->left && !root->right)
+    // check if the root has any subtrees, if not, the tree is empty
+    if(counter == 0)
+    {
         return true;
-
+    }
     return false;
 }
 
 //Return mumber of keys (elements) stored in the tree
 int BST_threaded::size() const
 {
-   //ADD CODE
-    return 0;
+    return counter;
 }
 
 
@@ -82,11 +83,10 @@ void BST_threaded::remove(string key)
     }
     else
     {
-        counter --;
         // call remove with the first node as 'this', and since it is a left child to root, pass isRight = false
         cout << "3. The key " << key << " is to be removed!" << endl;
         isRemoved = root->left->remove(key, root, false);
-
+        counter --;
         // checking again if the key is in the tree, if it returns nullptr, remove is working!
         if(find(key) == end())
             cout << "Key " << key << "was successfully removed!" << endl<< endl;
@@ -124,13 +124,22 @@ BiIterator BST_threaded::find(string key) const
 {
     cout << "2. Searching for " << key << endl;
     // Use find-method in node.cpp
+    if(empty())
+    {
+        cout << "tree is empty" << endl;
+        return BiIterator(root);
+    }
+    cout << "in find, outside if-s" << endl;
+
     if(root->left->find(key))
     {
+        cout << "in find, tree is not empty" << endl;
         // if key is found, return the iterator referring to the node of the key
-        return root->left->find(key);
+        return BiIterator(root->left->find(key));
     }
     else
     {
+        cout << "in find else, tree is not empty" << endl;
         // if not found, return the iterator pointing to the root, end()
         return end();
     }

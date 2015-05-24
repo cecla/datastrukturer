@@ -135,18 +135,22 @@ int main()
     table.remove("2");
     table.remove("4");
     table.remove("8");
-//    table.remove("100");
+    table.remove("100");
 
-//    if (table.empty())
-//        cout << "Table is empty!" << endl << endl;
-    it = table.begin();
-    cout << "  \tKEY" << "\tCOUNTER" << endl;
-    cout << "==============================\n";
-    for( ; it != table.end(); it++)
+    if (table.empty())
+        cout << "Table is empty!" << endl << endl;
+    else
     {
-         cout << setw(10) << it->first
-              << setw(12) << it->second << endl;
+        it = table.begin();
+        cout << "  \tNOT EMPTY" << "\tCOUNTER" << endl;
+        cout << "==============================\n";
+        for( ; it != table.end(); it++)
+        {
+             cout << setw(10) << it->first
+                  << setw(12) << it->second << endl;
+        }
     }
+
     cout << "All tests passed successfully!!" << endl << endl;
 
     return 0;
