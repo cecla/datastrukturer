@@ -19,7 +19,7 @@
 
 using namespace std;
 
-string SYMB = "(.,!?:\"();\\)";
+string SYMB = "(.,'!?:\"();\\)";
 
 /*******************************
 * 2. Main function             *
@@ -38,6 +38,8 @@ bool isNotAlnum(char c){
 int main()
 {
     MAP table;
+    
+    vector<string> find_one;
 
     string name, s;
     int count = 0;
@@ -48,7 +50,7 @@ int main()
 
 //    cout << "File name? ";
 //    getline(cin, name);
-    name = "mesg.txt";
+    name = "/Users/cecilialagerwall/Documents/Skola/TND004/labb3/mesg.txt";
     ifstream textFile(name);
 
     if (!textFile)
@@ -69,7 +71,6 @@ int main()
 
         if (!s.size()) continue; //skip numbers and punctuation signs
         table[s].second++;  //if s is not in the table then it is inserted
-        cout << s << " " << table[s].first << endl;
 
         count++;
     }
@@ -93,6 +94,11 @@ int main()
     {
         cout << setw(15) << right << it->first
              << setw(15) << it->second << endl;
+        
+        if (it->second == 1)
+        {
+            find_one.push_back(it->first);
+        }
 
         it++;
     }
@@ -103,13 +109,32 @@ int main()
 //    *          and display table again                    *
 //    *******************************************************/
 //
-//    string wait;
-//    getline(cin, wait);
-//
-//    //ADD CODE
-//
-//
-//
+    //string wait;
+    //getline(cin, wait);
+
+    //ADD CODE
+    for (int i = 0; i < find_one.size(); i++)
+    {
+        table.remove(find_one.at(i));
+    }
+    
+    cout << endl << endl;
+    it = table.begin();
+    
+    cout << "Removed all words with counter = 1" << endl << endl
+    << setw(15) << "KEY" << setw(10) << "" << "COUNTER" << endl
+    << "=================================" << endl;
+    while(it != table.end())
+    {
+        cout << setw(15) << right << it->first
+        << setw(15) << it->second << endl;
+        
+        it++;
+    }
+
+
+
+
 //    /***********************************************************
 //    * PHASE 4: request two words to the user w1 and w2         *
 //    *          then display all words in the interval [w1,w2]  *
