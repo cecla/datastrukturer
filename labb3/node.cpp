@@ -102,25 +102,20 @@ bool Node::insert(ELEMENT v)
 bool Node::remove(string key, Node* parent, bool isRight)
 {
     //ADD CODE
-    cout << "4. In node class to remove " << key << endl << "The value at this is " << value.first << endl;
-
     if(key < value.first)
     {
-        cout << "5. key < value" << endl;
         // the key is in the left subtree
         // boolean isRight is false
         left->remove(key, this, false);
     }
     else if(key > value.first)
     {
-        cout << "5. key > value" << endl;
         // the key is in the right subtree
         // boolean isRight is true
         right->remove(key, this, true);
     }
     else // key == value.first
     {
-        cout << "5. key = value" << endl;
         // the key is found and should be erased!
         // now check for children
         if(!l_thread && !r_thread)
@@ -136,7 +131,6 @@ bool Node::remove(string key, Node* parent, bool isRight)
         {
             // the node is checked with the 6 cases and removed!
             // boolean isRight will be set before
-            cout << "6. node is a leaf, pass it to removeMe! " << endl;
             removeMe(parent, isRight);
             return true;
         }
@@ -166,7 +160,6 @@ void Node::removeMe(Node* parent, bool isRight)
         parent->left = right;
   //      right->left = left;
         this->right->findMin()->left = this->left;
-        cout << "7. Node is a leftie with a rightie" << endl;
         l_thread = r_thread = true;
         delete this;
    }
@@ -176,7 +169,6 @@ void Node::removeMe(Node* parent, bool isRight)
         // peka parent->left till this->left och this->left->right till this->right
         parent->left = left;
         left->findMax()->right = right;
-        cout << "7. Node is a leftie with a leftie" << endl;
         l_thread = r_thread = true;
         delete this;
    }
@@ -186,7 +178,6 @@ void Node::removeMe(Node* parent, bool isRight)
         // gör parent->l_thread till true och parent->left = left;
         parent->l_thread = true;
         parent->left = left;
-        cout << "7. Node is a leftie without kids" << endl;
         l_thread = r_thread = true;
         delete this;
     }
@@ -198,7 +189,6 @@ void Node::removeMe(Node* parent, bool isRight)
        parent->right = right;
        //right->left = left;
        this->right->findMin()->left = this->left;
-       cout << "7. Node is a rightie with a rightie" << endl;
        l_thread = r_thread = true;
        delete this;
 
@@ -210,7 +200,6 @@ void Node::removeMe(Node* parent, bool isRight)
        parent->right = left;
      //  left->right = right;
         this->left->findMax()->right = this->right;
-       cout << "7. Node is a rightie with a leftie" << endl;
        l_thread = r_thread = true;
        delete this;
 
@@ -221,7 +210,6 @@ void Node::removeMe(Node* parent, bool isRight)
        // gör parent->r_thread till true och parent->right = right;
        parent->right = right;
        parent->r_thread = true;
-       cout << "7. Node is a rightie without kids" << endl;
        l_thread = r_thread = true;
        delete this;
 
@@ -288,12 +276,6 @@ Node* Node::findMin()
 Node* Node::findMax()
 {
     //ADD CODE
-//    Node *temp = this;
-//    while(!temp->r_thread)
-//    {
-//        temp = temp->right;
-//    }
-//    return temp;
     if(!r_thread)
         return right->findMax();
 
