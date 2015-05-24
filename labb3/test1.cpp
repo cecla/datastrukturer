@@ -113,10 +113,12 @@ int main()
    *PHASE 4: remove                                      *
    *******************************************************/
     cout << "\n**TEST PHASE 4: remove" << endl << endl;
-
+    
+    //cout << "Table size = " << table.size() << endl;
     table.remove("6");
     table.remove("5");
     table.remove("7");
+    //cout << "Table size = " << table.size() << endl;
 
     cout << "\n\nTable sorted increasingly after removing 5, 6, and 7..."
          << endl << endl;
@@ -150,7 +152,9 @@ int main()
                   << setw(12) << it->second << endl;
         }
     }
-
+    
+    //cout << "Table size = " << table.size() << endl;
+    
     cout << "All tests passed successfully!!" << endl << endl;
 
     return 0;
