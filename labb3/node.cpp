@@ -106,13 +106,13 @@ bool Node::remove(string key, Node* parent, bool isRight)
     {
         // the key is in the left subtree
         // boolean isRight is false
-        left->remove(key, this, false);
+        return left->remove(key, this, false);
     }
     else if(key > value.first)
     {
         // the key is in the right subtree
         // boolean isRight is true
-        right->remove(key, this, true);
+        return right->remove(key, this, true);
     }
     else // key == value.first
     {
