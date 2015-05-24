@@ -38,7 +38,7 @@ bool isNotAlnum(char c){
 int main()
 {
     MAP table;
-    
+
     vector<string> find_one;
 
     string name, s;
@@ -50,7 +50,8 @@ int main()
 
 //    cout << "File name? ";
 //    getline(cin, name);
-    name = "/Users/cecilialagerwall/Documents/Skola/TND004/labb3/mesg.txt";
+  //  name = "/Users/cecilialagerwall/Documents/Skola/TND004/labb3/mesg.txt";
+  name = "mesg.txt";
     ifstream textFile(name);
 
     if (!textFile)
@@ -94,7 +95,7 @@ int main()
     {
         cout << setw(15) << right << it->first
              << setw(15) << it->second << endl;
-        
+
         if (it->second == 1)
         {
             find_one.push_back(it->first);
@@ -104,23 +105,23 @@ int main()
     }
 
 
-//    /******************************************************
-//    * PHASE 3: remove all words with counter 1            *
-//    *          and display table again                    *
-//    *******************************************************/
+    /******************************************************
+    * PHASE 3: remove all words with counter 1            *
+    *          and display table again                    *
+    *******************************************************/
 //
-    //string wait;
-    //getline(cin, wait);
+//    string wait;
+//    getline(cin, wait);
 
-    //ADD CODE
+   // ADD CODE
     for (int i = 0; i < find_one.size(); i++)
     {
         table.remove(find_one.at(i));
     }
-    
+
     cout << endl << endl;
     it = table.begin();
-    
+
     cout << "Removed all words with counter = 1" << endl << endl
     << setw(15) << "KEY" << setw(10) << "" << "COUNTER" << endl
     << "=================================" << endl;
@@ -128,21 +129,48 @@ int main()
     {
         cout << setw(15) << right << it->first
         << setw(15) << it->second << endl;
-        
+
         it++;
     }
 
 
 
 
-//    /***********************************************************
-//    * PHASE 4: request two words to the user w1 and w2         *
-//    *          then display all words in the interval [w1,w2]  *
-//    ************************************************************/
-//
-//    //ADD CODE
+    /***********************************************************
+    * PHASE 4: request two words to the user w1 and w2         *
+    *          then display all words in the interval [w1,w2]  *
+    ************************************************************/
 
-
-
+   string w1, w2;
+   cout << "enter w1: ";
+   cin >> w1;
+   cout << "enter w2: ";
+   cin >> w2;
+   if(w1>w2)
+   {
+       string temp = w1;
+       w1 = w2;
+       w2 = temp;
+   }
+   if(w1 == w2)
+   {
+       cout << "the words are the same" << endl;
+      // cout << "No words between " << w1 << "and " << w2 << endl;
+   }
+   else
+   {
+       it = table.begin();
+       cout << "All words between " << w1 <<" and " << w2 << endl << endl
+        << setw(15) << "KEY" << setw(10) << "" << "COUNTER" << endl
+        << "=================================" << endl;
+       while(it != table.end())
+       {
+           if(it->first > w1 && it->first < w2)
+           {
+               cout << it->first << endl;
+           }
+           it++;
+       }
+   }
     return 0;
 }
