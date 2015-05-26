@@ -73,6 +73,7 @@ void Digraph::uwsssp(int s)
     {
         dist[i] = INFINITY;
         path[i] = 0;
+        done[i] = false;
     }
     dist[s] = 0;
 
@@ -116,8 +117,42 @@ void Digraph::pwsssp(int s)
          cout << "\nERROR: expected source s in range 1.." << size << " !" << endl;
          return;
     }
+    Queue<int> Q;
 
-    // *** TODO ***
+    // for all vertexes v in the graph, set dist(v) to INFINITY and path(v) to 0
+    for(int i = 1; i <= size; i++)
+    {
+        dist[i] = INFINITY;
+        path[i] = 0;
+        done[i] = false;
+    }
+    dist[s] = 0;
+
+    Q.enqueue(s);
+
+    while(!Q.isEmpty())
+    {
+        // fetch the first element in the queue and remove it from queue
+        int v = Q.getFront();
+        Q.dequeue();
+        done[v] = true;
+
+        // Get the first vertex pointed to by v
+        Node* p = array[v].getFirst();
+
+        while(p)
+        {
+        //    cout << "visiting " << p->vertex << " from v: " << v << endl;
+            if(!done[p->vertex])
+                Q.enqueue(p->vertex);
+            if(dist[p->vertex] > (dist[v] + p->weight))
+            {
+                dist[p->vertex] = dist[v] + p->weight;
+                path[p->vertex] = v;
+            }
+            p = array[v].getNext();
+        }
+    }
 }
 
 // print graph
