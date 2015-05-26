@@ -8,6 +8,7 @@
 #include <iostream>
 #include <iomanip>
 #include <cassert>
+#include <vector>
 
 using namespace std;
 
@@ -59,8 +60,28 @@ void Graph::removeEdge(int u, int v)
 void Graph::mstPrim() const
 {
     // *** TODO ***
+    vector<Edge> edges;
+    bool done[size+1]; //need to mark the visited nodes
+    
+    int *dist;
+    int *path;
+    
+    for (int i = 1; i <= size; ++i)
+    {
+        done[i] = false;
+        dist[i] = INFINITY;
+        path[i] = 0;
+    }
+    
+    dist[size] = 0;
+    done[size] = true;
+    
+    while (!done)
+    {
+        
+    }
+    
 }
-
 // Kruskal's minimum spanning tree algorithm
 void Graph::mstKruskal() const
 {

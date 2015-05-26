@@ -12,6 +12,8 @@ using namespace std;
 
 #include "graph.h"
 
+// /Users/cecilialagerwall/Documents/Skola/TND004/labb4b/graph1.txt
+
 // -- FUNCTION DECLARATIONS
 
 int readInt(string prompt);
