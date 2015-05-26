@@ -60,27 +60,41 @@ void Graph::removeEdge(int u, int v)
 void Graph::mstPrim() const
 {
     // *** TODO ***
-    vector<Edge> edges;
-    bool done[size+1]; //need to mark the visited nodes
+    bool* done = new bool[size]; //need to mark the visited nodes
+    int* path = new int[size];
+    int* dist = new int[size];
     
-    int *dist;
-    int *path;
-    
+    //want to set dist = INFINITY, path = 0 and done = false
     for (int i = 1; i <= size; ++i)
     {
         done[i] = false;
-        dist[i] = INFINITY;
         path[i] = 0;
+        dist[i] = INFINITY;
     }
     
-    dist[size] = 0;
-    done[size] = true;
+    int start = 1;
+    done[start] = true;
+    dist[start] = 0;
     
-    while (!done)
+    int v = start;
+    //loop trough until all the vertex have been true
+    while (true)
     {
+        Node *p = array[v].getFirst();
         
+        while (p)
+        {
+            if (done[p->vertex] == false)
+            {
+                dist[p->vertex] = p->weight;
+                path[p->vertex] = v;
+            }
+            p = array[v].getNext();
+        }
+        
+        //if(dist[p->vertex] == INFINITY) break;
+        done[v] = true;
     }
-    
 }
 // Kruskal's minimum spanning tree algorithm
 void Graph::mstKruskal() const
