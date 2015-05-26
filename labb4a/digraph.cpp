@@ -83,6 +83,7 @@ void Digraph::uwsssp(int s)
         // fetch the first element in the queue and remove it from queue
         int v = Q.getFront();
         Q.dequeue();
+        done[v] = true;
 
         // Get the first vertex pointed to by v
         Node* p = array[v].getFirst();
@@ -90,10 +91,8 @@ void Digraph::uwsssp(int s)
         // for every vertex adjacent to v,
         // visit and check if it has been visited before        while(p)
         {
-            cout << "Vertex " << v << " is pointing to " << p->vertex << endl;
-
             // If dist is inf, the node has not been visited
-            if(dist[p->vertex] == INFINITY)
+            if(dist[p->vertex] == INFINITY && done[p->vertex] == false)
             {
                 // set the dist to one more than the vertex it came from, v
                 dist[p->vertex] = dist[v]+1;
@@ -164,7 +163,6 @@ void Digraph::printPath(int t) const
     int source;
     for(int i = 1; i <= size; i++)
     {
-        cout << i << " dist = " << dist[i] << endl;
         if(dist[i] == 0)
         {
             source = i;
