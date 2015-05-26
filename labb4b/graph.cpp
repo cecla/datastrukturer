@@ -60,6 +60,8 @@ void Graph::removeEdge(int u, int v)
 void Graph::mstPrim() const
 {
     // *** TODO ***
+    Heap<Edge>minHeap;
+    int totalW = 0;
     bool* done = new bool[size]; //need to mark the visited nodes
     int* path = new int[size];
     int* dist = new int[size];
@@ -77,24 +79,51 @@ void Graph::mstPrim() const
     dist[start] = 0;
 
     int v = start;
+
     //loop trough until all the vertex have been true
     while (true)
     {
         Node *p = array[v].getFirst();
-
+        
+        Edge e;
+        
         while (p)
         {
-            if (done[p->vertex] == false)
+            if (!done[p->vertex] && dist[p->vertex] > p->weight)
             {
+                //cout << p->vertex << "  " << p->weight << endl;
+                e = Edge(v, p->vertex, p->weight);
+                minHeap.insert(e);
                 dist[p->vertex] = p->weight;
-                path[p->vertex] = v;
             }
             p = array[v].getNext();
         }
-
-        //if(dist[p->vertex] == INFINITY) break;
+        //find the smallest
+        int d = INFINITY;
+        Edge temp;
+        
+        //här blir det fel
+        for(int i = 1; i <= size; i++)
+        {
+            if (!done[i] && dist[i] < d)
+            {
+                temp = minHeap.deleteMin();
+                d = temp.weight;
+                v = temp.tail;
+            }
+            //cout << temp.head << " " << temp.tail << " " << temp.weight << endl;
+            if (minHeap.isEmpty()) break;
+        }
+        
+        if (d == INFINITY) break;
+       
+        //cout << temp.head << " " << temp.tail << " " << temp.weight << endl;
+        totalW += temp.weight;
         done[v] = true;
+        
+        cout << temp << endl;
     }
+    cout << "Total weight = " << totalW << endl;
 }
 // Kruskal's minimum spanning tree algorithm
 void Graph::mstKruskal() const
@@ -138,7 +167,8 @@ void Graph::mstKruskal() const
         {
             totalW += temp.weight;
             D.join(D.find(temp.head), D.find(temp.tail));
-            cout << temp<< endl;
+
+            cout << temp<< endl;
         }
         counter++;
     }
