@@ -59,33 +59,55 @@ void Graph::removeEdge(int u, int v)
 // Prim's minimum spanning tree algorithm
 void Graph::mstPrim() const
 {
-    // *** TODO ***
-    vector<Edge> edges;
-    bool done[size+1]; //need to mark the visited nodes
-    
-    int *dist;
-    int *path;
-    
-    for (int i = 1; i <= size; ++i)
-    {
-        done[i] = false;
-        dist[i] = INFINITY;
-        path[i] = 0;
-    }
-    
-    dist[size] = 0;
-    done[size] = true;
-    
-    while (!done)
-    {
-        
-    }
-    
+
 }
 // Kruskal's minimum spanning tree algorithm
 void Graph::mstKruskal() const
 {
-    // *** TODO ***
+    Heap<Edge> minHeap;
+    DSets D(size);
+    bool* done= new bool[size];
+    int countEdges = 0;
+    int totalW = 0;
+
+    for(int i = 0; i < size; i++)
+    {
+        done[i] = false;
+    }
+    // insert all edges in the heap by traversing the tree
+    for(int i = 0; i < size ; i++)
+    {
+        Node* p = array[i].getFirst();
+
+        while(p)
+        {
+            if(!done[p->vertex])
+            {
+                minHeap.insert(Edge(i, p->vertex, p->weight));
+                countEdges++;
+            }
+            p = array[i].getNext();
+        }
+        done[i] = true;
+    }
+
+
+    int counter = 0;
+    Edge temp;
+    while(counter < countEdges)
+    {
+        temp = minHeap.deleteMin();
+
+     //   cout << "edge: " << temp <<endl;
+        if(D.find(temp.head) != D.find(temp.tail))
+        {
+            totalW += temp.weight;
+            D.join(D.find(temp.head), D.find(temp.tail));
+            cout << temp<< endl;
+        }
+        counter++;
+    }
+    cout <<endl <<  "Total weight: " << totalW << endl;
 }
 
 // print graph
