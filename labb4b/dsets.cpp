@@ -53,10 +53,20 @@ void DSets::join(int r, int s)
     assert(array[s] < 0);
 
     // simple union
-    array[r]  = s;
+  //  array[r]  = s;
+    cout << "r: " << r <<" s: "<<s<<" array[r]<: "<< array[r] <<" array[s]: " << array[s] << endl;
 
-    // *** TODO ***
     // weighted union (by size)
+    // Link the smallest tree to the largest, resulting in the height never going over log n
+    // find out the height of the trees with roots r and s
+    if(r > s)
+    {
+        // r is the largest, append s to r
+        array[r] = s;
+    }
+    else
+        array[s] = r;
+
 }
 
 // return name of current set for x
@@ -65,18 +75,15 @@ int DSets::find(int x)
 {
     assert(x >= 1 && x <= size);
 
-    // simple find
+    // find with path compression
     if (array[x] < 0)
     {
         return x;
     }
     else
     {
-        return find(array[x]);
+        return array[x] = find(array[x]);
     }
-
-    // *** TODO ***
-    // find with path compression
 }
 
 // just in case ...
