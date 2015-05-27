@@ -60,7 +60,6 @@ void Graph::removeEdge(int u, int v)
 void Graph::mstPrim() const
 {
     // *** TODO ***
-    Heap<Edge>minHeap;
     int totalW = 0;
     bool* done = new bool[size]; //need to mark the visited nodes
     int* path = new int[size];
@@ -73,11 +72,12 @@ void Graph::mstPrim() const
         path[i] = 0;
         dist[i] = INFINITY;
     }
-
+    
+    //The vertex we want to start with
     int start = 1;
     done[start] = true;
-    dist[start] = 0;
-
+    
+    //step forward with help of v
     int v = start;
 
     //loop trough until all the vertex have been true
@@ -85,42 +85,38 @@ void Graph::mstPrim() const
     {
         Node *p = array[v].getFirst();
         
-        Edge e;
-        
         while (p)
         {
             if (!done[p->vertex] && dist[p->vertex] > p->weight)
             {
-                //cout << p->vertex << "  " << p->weight << endl;
-                e = Edge(v, p->vertex, p->weight);
-                minHeap.insert(e);
                 dist[p->vertex] = p->weight;
+                path[p->vertex] = v;
             }
             p = array[v].getNext();
         }
         //find the smallest
         int d = INFINITY;
-        Edge temp;
         
-        //här blir det fel
+        done[v] = true; //mark the vertex as visited
+        
+        //find the smallest undone distance vertex
         for(int i = 1; i <= size; i++)
         {
-            if (!done[i] && dist[i] < d)
+            if (!done[i] && dist[i] < d) //if we have not visited the loop and the weight is smaller, do the if
             {
-                temp = minHeap.deleteMin();
-                d = temp.weight;
-                v = temp.tail;
+                d = dist[i]; //update wight to the smallest undone vertex
+                v = i; //update v so we start from a new v the next time we enter the loop
             }
-            //cout << temp.head << " " << temp.tail << " " << temp.weight << endl;
-            if (minHeap.isEmpty()) break;
         }
         
-        if (d == INFINITY) break;
-       
-        //cout << temp.head << " " << temp.tail << " " << temp.weight << endl;
-        totalW += temp.weight;
-        done[v] = true;
+        //insert the smallest undone distance vertex
+        Edge temp = Edge(path[v], v, d);
         
+        if (d == INFINITY) break;
+        
+        //add weight
+        totalW += temp.weight;
+
         cout << temp << endl;
     }
     cout << "Total weight = " << totalW << endl;
